@@ -40,7 +40,7 @@ app.post("/productos", async (req, res) =>{
 
         let sql = "INSERT INTO productos (nombre, img, tipo, precio) VALUES (?,?,?,?)";
 
-        let[rows] = await connection.query(sql, [nombre, img_url, tipo, precio]);
+        let[rows] = await connection.query(sql, [nombre, img, tipo, precio]);
 
         res.status(201).json({
             message: "Producto creado con exito!",
