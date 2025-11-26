@@ -1,106 +1,84 @@
+/*======================
+        Importaciones
+=====================*/
 import express from "express";
-import enviroments from "./src/api/config/enviroments.js";
-
 const app = express();
 
-import connection from "./src/api/database/db.js";
-
-import cors from "cors";
-
-app.use(cors()); 
-
+import enviroments from "./src/api/config/enviroments.js";
 const PORT = enviroments.port;
 
-// Traer todos los productos
-// Middleware logger
-app.use((req, res, next) => {
-    console.log(`[${new Date().toLocaleString()}] ${req.method} ${req.url}`);
-    
-    next();
-});
+import cors from "cors"; 
+import { loggerUrl } from "./src/api/middlewares/middlewares.js";
+import { productRoutes } from "./src/api/routes/index.js";
 
+// importamos la config para trabajar rutas y archivos estaticos
+import { join, __dirname } from "./src/api/utils/index.js";
+import connection from "./src/api/database/db.js";
+
+/*======================
+Middlewares
+=====================*/
+app.use(cors()); 
+app.use(loggerUrl);
 app.use(express.json());
+app.use(express.static(join(__dirname, "src", "public"))); //GRACIAS A ESTO PODEMOS ACCEDER LOS ARCHIVOS DE LA CARPETA PUBLIC COMO LOCALHOST OSEA MIS IMAGENES
+/*======================
+        configuracion
+====================*/
+app.set("view engine", "ejs"); // Configuramos EJS como motor de plantillas
+app.set("views", join(__dirname, "src", "views")); // Le indicamos la ruta donde estan las vistas ejs
+
+
+
 /*======================
         EndPoints
 =====================*/
+
 app.get("/", (req, res) =>{
     res.send("TP INTEGRADOR Div 132");
 });
-
-
-
-// Crear nuevo Producto
-app.post("/productos", async (req, res) =>{
-    try
-    {
-        let {nombre, img_url, tipo, precio} = req.body;
-
-        console.log(req.body);
-        console.log(`Nombre del producto: ${nombre}`); 
-
-        let sql = "INSERT INTO productos (nombre, img, tipo, precio) VALUES (?,?,?,?)";
-
-        let[rows] = await connection.query(sql, [nombre, img, tipo, precio]);
-
-        res.status(201).json({
-            message: "Producto creado con exito!",
-        });
-
-    }
-    catch(error){
-        console.log("Error al crear producto: ", error);
-
-        res.status(500).json({
-            message: "Error interno del servidor",
-            error: error.message
-        });
-    }
-});
-
-
-// Consultar producto por id 
-app.get("/productos/:id", async (req, res)=>{ 
-    try{
-        let {id} = req.params;
         
-        let sql = "SELECT * FROM productos WHERE productos.id = ?";
-
-        const[rows] = await connection.query(sql, [id]);
-
-        console.log(rows);
-
-        res.status(200).json({
-            payload: rows
-        });
+app.get("/index", async (req, res) =>{
+    try{
+        const [rows] = await connection.query("SELECT * FROM productos");
+        // console.log(rows);
+        res.render("index", {
+            title: "Tiendamon",
+            about: "Lista de productos",
+            products: rows
+        }); //le devolvemos la pagina index.ejs
     }catch(error)
     {
         console.log(error);
-
-        res.status(500).json({
-            message:"Error interno del servidor",
-            error: error.message
-        });
     }
 });
-
-app.get("/productos", async (req, res) => {
-    try{
-        const sql = `SELECT * FROM productos`;
-        const [rows, fields] = await connection.query(sql);
-
-        res.status(200).json({
-            payload:rows
-        });
-
-    }catch(err){
-        console.log(err)
-
-        res.status(500).json({
-            message: "Error interno al obtener productos"
-        })
-    }
+app.get("/consultar", (req, res) => {
+    res.render("consultar", {
+        title: "Consultar",
+        about: "Consultar producto por id:"
+    });//le devolvemos la pagina index.ejs
+});
+app.get("/crear", (req, res) =>{
+    res.render("crear", {
+        title: "Crear",
+        about: "Crear producto"
+    }); 
+});
+app.get("/modificar", (req, res) => {
+    res.render("modificar", {
+        title: "Modificar",
+        about: "Actualizar producto"
+    });
+})
+app.get("/eliminar", (req, res) => {
+    res.render("eliminar", {
+        title: "Eliminar",
+        about: "Eliminar producto"
+    });
 })
 
+// AHORA LAS RUTAS GESTIONA EL MIDDLEWARE
+app.use("/api/productos", productRoutes)
 
 app.listen(PORT, () =>{
     console.log(`Servidor corriendo desde el puerto ${PORT}`)

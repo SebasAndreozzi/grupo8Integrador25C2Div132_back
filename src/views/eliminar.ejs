@@ -1,0 +1,20 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/nav.ejs") %> 
+<main>
+    <h1><%=about %></h1>
+
+    <form id="getProductos-form" class="productos-form">
+
+        <label for="idProd">Id del producto: </label>
+        <input type="number" name="id" id="idProd" required>
+
+        <input class="button" type="submit" value="Buscar producto">
+    </form>
+
+    <hr>
+    <div id="listado-productos">
+    </div>
+</main>
+<script src="js/eliminar.js"></script>
+
+<%- include("partials/footer.ejs") %>
