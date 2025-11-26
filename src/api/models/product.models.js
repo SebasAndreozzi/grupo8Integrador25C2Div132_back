@@ -47,7 +47,7 @@ const updateProduct = (nombre, img, tipo, precio, activo, id) =>
 //params: elimina el registro según su ID
 
 const deleteProduct = (id) =>{
-    let sql = `DELETE FROM productos WHERE id= ?`;
+    let sql = `UPDATE products set active = 0 WHERE id = ?`;
     return connection.query(sql,[id]);
 }
 

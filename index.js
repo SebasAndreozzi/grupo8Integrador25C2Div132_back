@@ -54,25 +54,25 @@ app.get("/index", async (req, res) =>{
 });
 app.get("/consultar", (req, res) => {
     res.render("consultar", {
-        title: "Consultar",
+        title: "Tiendamon - Consultar",
         about: "Consultar producto por id:"
     });//le devolvemos la pagina index.ejs
 });
 app.get("/crear", (req, res) =>{
     res.render("crear", {
-        title: "Crear",
+        title: "Tiendamon - Crear",
         about: "Crear producto"
     }); 
 });
 app.get("/modificar", (req, res) => {
     res.render("modificar", {
-        title: "Modificar",
-        about: "Actualizar producto"
+        title: "Tiendamon - Modificar",
+        about: "Modificar producto"
     });
 })
 app.get("/eliminar", (req, res) => {
     res.render("eliminar", {
-        title: "Eliminar",
+        title: "Tiendamon - Eliminar",
         about: "Eliminar producto"
     });
 })

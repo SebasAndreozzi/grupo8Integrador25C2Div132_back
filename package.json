@@ -2,21 +2,29 @@
   "name": "5_tpintegradorback",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "keywords": [],
+  "homepage": "https://github.com/SebasAndreozzi/grupo8Integrador25C2Div132_back#readme",
+  "bugs": {
+    "url": "https://github.com/SebasAndreozzi/grupo8Integrador25C2Div132_back/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SebasAndreozzi/grupo8Integrador25C2Div132_back.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "mysql2": "^3.15.3",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.11"
   }
 }

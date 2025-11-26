@@ -59,9 +59,7 @@ function crearFormulario(event, producto) {
     console.table(producto); // Recibimos el producto para llenar los valores del formulario
 
     let formularioHtml = `
-        <form id="updateProducts-form" class="products-form-amplio">
-
-            <input type="hidden" name="id" id="idProducto" value="${producto.id}">
+        <form id="updateProducts-form" class="productos-form">
             
             <label for="nombreProd">Nombre</label>
             <input type="text" name="nombre" id="nombreProd" value="${producto.nombre}">
@@ -84,7 +82,7 @@ function crearFormulario(event, producto) {
 
             <input type="hidden" name="activo" value="${producto.activo}"> 
 
-            <input type="submit" value="Modificar producto">
+            <input class="button" type="submit" value="Modificar producto">
         </form>
     `;
     // TUVE QUE AGREGAR XQ REQUIERE CAMPO ACTIVO<input type="hidden" name="activo" value="${producto.activo}">

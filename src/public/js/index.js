@@ -1,5 +1,3 @@
-// Seleccionamos el elemento al que le vamos a inyectar el HTML
-
 let contenedorProductos = document.getElementById("contenedor-productos");
 const url = "http://localhost:3000/api/productos"
 
@@ -21,15 +19,42 @@ async function obtenerProductos()
 }
 function mostrarProductos(array)
 {
-    console.table(array); //recibimos correctamente en formate tabla los productos q nos manda la funcion obtenerPorductos()
-
     let htmlProducto ="";
 
     array.forEach(producto=> {
         htmlProducto += `
             <div class= "card-producto">
-                <img src="${producto.img}" alt="${producto.nombre}"  width="150" height="150">
-                <h3>${producto.nombre}<h4>
+                <img src="${producto.img}" alt="${producto.nombre}">
+                <h3>${producto.nombre}</h3>
+                <p>$${producto.precio}</p>
+                <input class="button" type="button" id="idProducto" value="Agregar al carrito">
+            </div>
+        `;
+
+    });
+    contenedorProductos.innerHTML = htmlProducto;
+
+    let sellado = document.getElementById("filtro-sellado");
+    sellado.addEventListener("click", event =>{
+        filtrarPorTipo(array, sellado.textContent);
+    })
+
+    let accesorio = document.getElementById("filtro-accesorio");
+    accesorio.addEventListener("click", event =>{
+        filtrarPorTipo(array, accesorio.textContent);
+    })
+   
+}
+
+function filtrarPorTipo(array, tipo){
+    let htmlProducto ="";
+
+    array.forEach(producto=> {
+        if(producto.tipo === tipo)
+        htmlProducto += `
+            <div class= "card-producto">
+                <img src="${producto.img}" alt="${producto.nombre}">
+                <h3>${producto.nombre}</h3>
                 <p>$${producto.precio}</p>
                 <input class="button" type="button" id="idProducto" value="Agregar al carrito">
             </div>
