@@ -61,6 +61,8 @@ function crearFormulario(event, producto) {
     let formularioHtml = `
         <form id="updateProducts-form" class="productos-form">
             
+            <input type="hidden" name="id" value="${producto.id}"> 
+            
             <label for="nombreProd">Nombre</label>
             <input type="text" name="nombre" id="nombreProd" value="${producto.nombre}">
             <br>
