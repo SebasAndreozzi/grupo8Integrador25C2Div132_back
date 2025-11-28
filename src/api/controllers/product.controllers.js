@@ -25,6 +25,32 @@ export const getAllProducts = async(req, res) => {
     }
 }
 
+export const getActiveProducts = async (req, res) => {
+    try {
+        // la conexion devuelve dos campos, rows con el resultado de la consulta, fields la informacion de la tabla products
+        
+        const [rows, fields] = await ProductModel.selectActiveProducts();
+
+        // Tipo de respuesta en JSON
+        res.status(200).json({
+            payload: rows,
+            message: rows.length === 0 ? "No se encontraron productos" : "Productos encontrados"
+        });
+        // Optimizacion 2: Devolver un mensaje haya o no haya productos
+
+        /* El término "payload" en el contexto de bases de datos se refiere 
+        a la parte de los datos transmitidos que constituye el mensaje real 
+        o la información útil, excluyendo los encabezados, metadatos o información de control necesaria para la entrega del mensaje*/
+
+    } catch (error) {
+        console.error("Error obteniendo productos", error.message);
+
+        res.status(500).json({
+            message: "Error interno al obtener productos"
+        });
+    }
+}
+
 // Controlador GET: obtiene un producto específico por su ID y devuelve la respuesta en JSON
 export const getProductById = async (req, res)=>{ 
     try{

@@ -11,7 +11,11 @@ const selectAllProducts = () => {
     return connection.query(sql);
 }; 
 
+const selectActiveProducts = () => {
+    const sql = "Select * FROM productos WHERE activo = 1";
 
+    return connection.query(sql);
+}
 
 // Traer traer productos por id
 //params: id sera el producto ingresado en la barra de consulta
@@ -60,6 +64,7 @@ const deleteProduct = (id) =>{
 
 export default {
     selectAllProducts,
+    selectActiveProducts,
     selectProductById,
     insertProduct,
     updateProduct,
