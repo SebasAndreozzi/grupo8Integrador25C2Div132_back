@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validateId } from "../middlewares/middlewares.js";
+import { validacionFormularios, validateId } from "../middlewares/middlewares.js";
 import { createProduct, getAllProducts, getActiveProducts, getProductById, modifyProduct, removeProduct } from "../controllers/product.controllers.js"; 
 
 const router = Router(); //inicializa una instancia de la aplicacion
@@ -13,10 +13,10 @@ router.get("/cliente", getActiveProducts);
 router.get("/:id",  validateId , getProductById);
 
 // POST -> Crear nuevo Producto
-router.post("/", createProduct);
+router.post("/", validacionFormularios, createProduct);
 
 // PUT -> Actualizar producto
-router.put("/", modifyProduct);
+router.put("/", validacionFormularios, modifyProduct);
 
 // DELETE -> Eliminar producto
 router.delete("/:id",validateId, removeProduct);
