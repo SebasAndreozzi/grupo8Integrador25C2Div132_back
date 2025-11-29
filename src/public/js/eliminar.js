@@ -19,6 +19,10 @@ getProducts_form.addEventListener("submit", async (event) => {
         let datos = await response.json();
         console.log(datos);
 
+        if (!response.ok) {
+            mostrarError(datos.message || "No se pudo obtener el producto");
+            return;
+        }
         let producto = datos.payload[0];
 
         mostrarProducto(producto); 
@@ -81,4 +85,15 @@ async function eliminarProducto(id) {
     }catch(err){
         console.error(err.message);
     }
+}
+
+function mostrarError(message) {
+    listado_productos.innerHTML = `
+        <li class="mensaje-error">
+            <p>
+                <strong>Error:</strong>
+                <span>${message}</span>
+            </p>
+        </li>
+    `;
 }

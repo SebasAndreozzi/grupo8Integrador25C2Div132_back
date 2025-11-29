@@ -32,7 +32,7 @@ async function enviarProducto(data){
         }
         else{
             console.error(result.message);
-            alert("Error")
+            alert(result.message)
         }
 
     }catch(err){

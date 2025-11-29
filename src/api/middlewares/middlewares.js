@@ -9,18 +9,18 @@ funciones que se ejecutan entre la peticion (request -> req) y la respuesta (res
 // Middleware logger q muestra x consola todas las solicitudes
 const loggerUrl = (req, res, next) => {
     console.log(`[${new Date().toLocaleString()}] ${req.method} ${req.url}`);
-    
     next();
 }
 
+//Valida 
 const validateId = (req, res, next) => {
     const {id} = req.params;
 
     // validar q el ID sea un numero (de lo contrario la consulta podria generar un error en la base de datos)
-    if(!id || isNaN(id))
+    if(!id || isNaN(id)|| id < 1)
     {
-        return res.status(400).json({
-            message: "El id debe ser un numero"
+        return res.status(400).json({//bad request. La peticion http esta mal formado
+            message: "El id debe ser un numero entero positivo"
         });
     }
 
@@ -32,10 +32,59 @@ const validateId = (req, res, next) => {
     next(); // continuar al sig middleware
 } 
 
+/*==========Nuevas Validaciones===========*/
+//middlewares para chequear si existe una sesion creada, si no, redirigir a login
+const requireLogin = (req, res, next) => {
+    if(!req.session.user)
+    {
+        return res.redirect("/login");
+    }
+    next();
+
+}
+
+//validacion para la creacion de un producto
+const validacionFormularios = (req, res, next) => {
+    const { nombre, precio, tipo, img } = req.body;
+
+    // nombre
+    if (!nombre || nombre.trim().length < 3) {//trim(): eliminar todos los espacios en blanco de la cadena.
+        return res.status(400).json({
+            message: "El nombre es obligatorio y debe tener al menos 3 caracteres."
+        });
+    }
+
+    // precio
+    if (!precio || isNaN(precio) || Number(precio) <= 0) {
+        return res.status(400).json({
+            message: "El precio debe ser un número mayor a 0."
+        });
+    }
+
+    // tipo(categoría)
+    const categoriasValidas = ["Sellado", "Accesorio"];
+    if (!tipo || !categoriasValidas.includes(tipo)) {
+        return res.status(400).json({
+            message: "La categoría no es válida."
+        });
+    }
+    // URL de imagen
+    if (!img || !img.startsWith("http")) {
+        return res.status(400).json({
+            message: "La URL de imagen no es válida."
+        });
+    }
+
+    next();
+};
+
+
 
 
 // middlewares de ruta para validad el id en la ruta /api/products/:id
 export {
     loggerUrl,
-    validateId
+    validateId,
+    validacionFormularios
+
 }

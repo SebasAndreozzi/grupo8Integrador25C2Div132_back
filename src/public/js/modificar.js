@@ -73,8 +73,8 @@ function crearFormulario(event, producto) {
 
             <label for="tipoProd">Tipo</label>
             <select name="tipo" id="tipoProd">
-                <option value="sellado">Sellado</option>
-                <option value="accesorio">Accesorio</option>
+                <option value="Sellado">Sellado</option>
+                <option value="Accesorio">Accesorio</option>
             </select>
             <br>
 
@@ -100,6 +100,45 @@ function crearFormulario(event, producto) {
 }
 
 
+// async function modificarProducto(event) {
+//     event.preventDefault();
+
+//     let url = "http://localhost:3000/api/productos";
+    
+//     let formData = new FormData(event.target);
+//     console.log(formData);
+//     let data = Object.fromEntries(formData.entries());
+//     console.log(data);
+
+//     try {
+//         let response = await fetch(url, {
+//             method: "PUT",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify(data)
+//         });
+
+//         let result = await response.json(); 
+
+//         if(response.ok) { 
+//             alert(result.message);
+
+//             listado_productos.innerHTML = "";
+//             contenedor_formulario.innerHTML = "";
+
+//         } else {
+//             console.error("Error: ", error.message);
+//             alert(error.message);
+//         }
+
+//     } catch (error) {
+//         console.error("Error al enviar los datos: ", error);
+//         alert("Error al procesar la solicitud");
+//     }
+
+// }
+
 async function modificarProducto(event) {
     event.preventDefault();
 
@@ -107,6 +146,7 @@ async function modificarProducto(event) {
     
     let formData = new FormData(event.target);
     console.log(formData);
+
     let data = Object.fromEntries(formData.entries());
     console.log(data);
 
@@ -122,14 +162,15 @@ async function modificarProducto(event) {
         let result = await response.json(); 
 
         if(response.ok) { 
+            console.log(result.message);
             alert(result.message);
 
             listado_productos.innerHTML = "";
             contenedor_formulario.innerHTML = "";
 
         } else {
-            console.error("Error: ", error.message);
-            alert(error.message);
+            mostrarError(result.message || "No se pudo modificar el producto");
+            return;
         }
 
     } catch (error) {
@@ -137,4 +178,15 @@ async function modificarProducto(event) {
         alert("Error al procesar la solicitud");
     }
 
+}
+
+function mostrarError(message) {
+    listado_productos.innerHTML = `
+        <li class="mensaje-error">
+            <p>
+                <strong>Error:</strong>
+                <span>${message}</span>
+            </p>
+        </li>
+    `;
 }
