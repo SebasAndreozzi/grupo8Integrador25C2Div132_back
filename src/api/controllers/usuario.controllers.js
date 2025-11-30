@@ -1,66 +1,31 @@
-import { selectUserByCredentials } from "../models/usuario.models.js";
-
-export const renderLoginView = (req, res) => {
-    res.render("login", {
-        title: "Login",
-        about: "Iniciar sesión",
-    });
-};
+import { selectUserByCredentials } from "../models/usuario.models.js"; // Importa la función del modelo de datos para buscar usuarios por credenciales.
 
 export const loginUser = async (req, res) => {
-    try {
-        const { correo, password } = req.body;
+    const { correo, password } = req.body;
 
-        // Validación 1: campos vacíos
-        if (!correo || !password) {
-            return res.render("login", {
-                title: "Login",
-                about: "Iniciar sesión",
-                error: "Todos los campos son obligatorios",
-            });
-        }
-
-        // Consultar usuario
-        const [rows] = await selectUserByCredentials(correo, password);
-
-        // Validación 2: usuario no encontrado
-        if (rows.length === 0) {
-            return res.render("login", {
-                title: "Login",
-                about: "Iniciar sesión",
-                error: "Credenciales incorrectas",
-            });
-        }
-
-        const user = rows[0];
-
-        // Guardar sesión
-        req.session.user = {
-            id: user.id,
-            correo: user.correo,
-        };
-
-        // Redirigir al dashboard
-        res.redirect("/dashboard");
-    } catch (error) {
-        console.error("Error en el login:", error);
-        res.render("login", {
-            title: "Login",
-            about: "Iniciar sesión",
-            error: "Ha ocurrido un error interno",
-        });
+    const [rows] = await selectUserByCredentials(correo, password); // Ejecuta la consulta a la base de datos de forma asíncrona.
+    if (rows.length === 0) { // Comprueba si la consulta no arrojó resultados (credenciales incorrectas).
+        return res.redirect("/login"); // Si falla el login, redirige al usuario de vuelta a la página de login.
     }
+
+    req.session.user = { // Si las credenciales son correctas, crea una sesión para el usuario.
+        id: rows[0].id, // Guarda el ID del usuario en la sesión.
+        correo: rows[0].correo, // Guarda el correo del usuario en la sesión.
+    };
+
+    res.redirect("/dashboard"); // Redirige al usuario a la página principal o dashboard tras iniciar sesión con éxito.
 };
 
-export const logoutUser = (req, res) => {
+export const logoutUser = (req, res) => { // Define la función que maneja el cierre de sesión (POST /logout).
     req.session.destroy((err) => {
-        if (err) {
-            console.log("Error al destruir la sesión:", err);
+        if(err) { // Si existiera algun error destruyendo la sesion
+            console.log("Error al destruir la sesion", err);
             return res.status(500).json({
-                error: "Error al cerrar la sesión",
+                error: "Error al cerrar la sesion"
             });
         }
 
+        // Redirigimos a login luego de cerrar la sesion
         res.redirect("/login");
     });
 };

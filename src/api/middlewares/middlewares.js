@@ -77,7 +77,18 @@ const validacionFormularios = (req, res, next) => {
     next();
 };
 
+// const validarCredentials = (req, res, next) => {
+//     const { email, password } = req.body;
 
+//     // Validacion 1: Evitamos consulta innecesaria
+//     if(!email || !password) {
+//         return res.status(400).json({
+//             error: "Credenciales incorrectas"
+
+//         });
+//     }
+//     next();
+// }
 
 
 // middlewares de ruta para validad el id en la ruta /api/products/:id
@@ -85,6 +96,6 @@ export {
     loggerUrl,
     validateId,
     validacionFormularios,
-    requireLogin
+    requireLogin,
 
 }
