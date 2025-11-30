@@ -9,5 +9,6 @@ export default{
         name : process.env.DB_NAME,
         user : process.env.DB_USER,
         pass : process.env.DB_PASS
-    } 
+    },
+    session_key: process.env.SESSION_KEY
 }

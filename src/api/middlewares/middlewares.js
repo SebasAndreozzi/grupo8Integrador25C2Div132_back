@@ -12,7 +12,7 @@ const loggerUrl = (req, res, next) => {
     next();
 }
 
-//Valida 
+//Valida el id ingresado si es distinto al campo id, si no tiene valor o sea valor negativo
 const validateId = (req, res, next) => {
     const {id} = req.params;
 
@@ -32,7 +32,6 @@ const validateId = (req, res, next) => {
     next(); // continuar al sig middleware
 } 
 
-/*==========Nuevas Validaciones===========*/
 //middlewares para chequear si existe una sesion creada, si no, redirigir a login
 const requireLogin = (req, res, next) => {
     if(!req.session.user)
@@ -85,6 +84,7 @@ const validacionFormularios = (req, res, next) => {
 export {
     loggerUrl,
     validateId,
-    validacionFormularios
+    validacionFormularios,
+    requireLogin
 
 }

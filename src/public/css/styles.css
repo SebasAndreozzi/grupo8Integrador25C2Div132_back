@@ -265,3 +265,22 @@ input, label{
     margin-top: 10px;
     font-size: 1.5em;
 }*/
+
+#logout {
+    display: flex;
+    justify-content: end;
+}
+
+#logout input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: solid;
+    padding: 13px 9px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#logout input[type="submit"]:hover {
+    background-color: #0056b3;
+}
