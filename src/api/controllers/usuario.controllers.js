@@ -1,12 +1,28 @@
 import { selectUserByCredentials } from "../models/usuario.models.js"; // Importa la función del modelo de datos para buscar usuarios por credenciales.
+import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 
 export const loginUser = async (req, res) => {
     const { correo, password } = req.body;
-
+    console.log(await hashPassword(password));
     const [rows] = await selectUserByCredentials(correo, password); // Ejecuta la consulta a la base de datos de forma asíncrona.
     if (rows.length === 0) { // Comprueba si la consulta no arrojó resultados (credenciales incorrectas).
         return res.redirect("/login"); // Si falla el login, redirige al usuario de vuelta a la página de login.
     }
+    const user = rows[0];
+    console.table(user);
+
+    const isMatch = await comparePassword(password, user.password);
+    if(!isMatch)
+    {
+        return res.render("login", {
+        title: "Login",    
+        about: "Login dashboard",
+        error: "Credenciales incorrectas"
+        })
+
+    }
+
+
 
     req.session.user = { // Si las credenciales son correctas, crea una sesión para el usuario.
         id: rows[0].id, // Guarda el ID del usuario en la sesión.
