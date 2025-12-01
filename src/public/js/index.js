@@ -29,7 +29,7 @@ function mostrarProductos(array)
                 <img src="${producto.img}" alt="${producto.nombre}">
                 <h3>${producto.nombre}</h3>
                 <p>$${producto.precio}</p>
-                <button class="button" data-producto='${JSON.stringify(producto)}' onclick="agregarACarrito(this.dataset.producto)">Agregar al carrito</button>
+                <p>${producto.activo ? "Activo" : "Inactivo"}</p>
             </div>
         `;
 
@@ -61,7 +61,7 @@ function filtrarPorTipo(array, tipo){
                 <img src="${producto.img}" alt="${producto.nombre}">
                 <h3>${producto.nombre}</h3>
                 <p>$${producto.precio}</p>
-                <button class="button" onclick="agregarACarrito(${array})">Agregar al carrito</button>
+                <p>${producto.activo ? "Activo" : "Inactivo"}</p>
             </div>
         `;
 
