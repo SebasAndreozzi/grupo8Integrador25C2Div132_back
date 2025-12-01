@@ -31,15 +31,6 @@
 - Si no tienes el parser de urlencoded, req.body será undefined.
 Envía datos como `application/x-www-form-urlencoded` → necesita `express.urlencoded`.-->
 
-<script>
-    let emailUser = document.getElementById("emailUser");
-    let passwordUser = document.getElementById("passwordUser");
-
-    let acceso_rapido = document.getElementById("acceso");
-    acceso_rapido.addEventListener("click", () => {
-        emailUser.value = "test@test.com";
-        passwordUser.value = "test";
-    });
-</script>
+<script  src="js/login.js"></script>
 
 <%- include("partials/footer.ejs") %>
