@@ -45,8 +45,8 @@ function mostrarProducto(producto) {
             <img src="${producto.img}" alt="${producto.nombre}" class="img-contenedors">
             <p>Id: ${producto.id}</p>
             <p>Nombre: ${producto.nombre}</p>
-            <p>Precio:$${producto.precio}</p>
-            <p>Activo: ${producto.activo}</p>
+            <p>Precio: $${producto.precio}</p>
+            <p>${producto.activo ? "Activo" : "Inactivo"}</p>
         </div>
         `;
 
