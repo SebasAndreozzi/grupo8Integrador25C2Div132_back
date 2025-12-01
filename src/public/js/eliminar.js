@@ -1,5 +1,5 @@
 let getProducts_form = document.getElementById("getProductos-form");
-let listado_productos = document.getElementById("listado-productos");
+let contenedor_productos = document.getElementById("contenedor-productos");
 
 
 getProducts_form.addEventListener("submit", async (event) => {
@@ -37,17 +37,18 @@ function mostrarProducto(producto) {
     console.table(producto);
 
     let htmlProducto = `
-        <ul class="card-producto">
-            <li><img src="${producto.img}" alt="${producto.nombre}" class="img-listados"></li>
-            <li>Id: ${producto.id}</li>
-            <li>Nombre: ${producto.nombre}</li>
-            <li><strong>Precio: $${producto.precio}</strong></li>
-        </ul>
-
-        <input class="button" type="button" id="delete-button" value="Eliminar producto">    
+        <div class="card-producto">
+            <img src="${producto.img}" alt="${producto.nombre}">
+            <p>Id: ${producto.id}</p>
+            <p>Nombre: ${producto.nombre}</p>
+            <p>Precio:$${producto.precio}</p>
+            <p>Activo: ${producto.activo}</p>
+        </div>
+        
+        <button class="button" type="button" id="delete-button">Eliminar producto</button>   
         `;
 
-    listado_productos.innerHTML = htmlProducto;
+    contenedor_productos.innerHTML = htmlProducto;
     
     let deleteProduct_button = document.getElementById("delete-button");
 
@@ -77,7 +78,7 @@ async function eliminarProducto(id) {
         if(response.ok){
             console.log(result.message);
 
-            listado_productos.innerHTML="";
+            contenedor_productos.innerHTML="";
         }else{
             console.error(error.message);
         }
@@ -88,7 +89,7 @@ async function eliminarProducto(id) {
 }
 
 function mostrarError(message) {
-    listado_productos.innerHTML = `
+    contenedor_productos.innerHTML = `
         <li class="mensaje-error">
             <p>
                 <strong>Error:</strong>

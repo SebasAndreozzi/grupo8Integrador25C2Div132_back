@@ -11,7 +11,7 @@ export const renderLoginView = (req, res) => {
 
 export const renderDashboard = async (req, res) => {
     const [rows] = await connection.query("SELECT * FROM productos");
-    res.render("index", { title: "Tiendamon", about: "Lista", products: rows });
+    res.render("index", { title: "Tiendamon", about: "Lista de productos", products: rows });
 };
 
 export const renderConsultar = (req, res) => {

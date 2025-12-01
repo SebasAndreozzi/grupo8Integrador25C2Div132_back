@@ -1,5 +1,5 @@
 let getProductos_form = document.getElementById("getProductos-form");
-let listado_productos = document.getElementById("listado-productos");
+let contenedor_productos = document.getElementById("contenedor-productos");
 let contenedor_formulario = document.getElementById("contenedor-formulario");
 
 
@@ -32,18 +32,19 @@ getProductos_form.addEventListener("submit", async (event) => {
 function mostrarProducto(producto) {
 
     let htmlProducto = `
-        <ul class="card-producto">
-            <li><img src="${producto.img}" alt="${producto.nombre}" class="img-listados"></li>
-            <li>Id: ${producto.id}</li>
-            <li>Nombre: ${producto.nombre}</li>
-            <li><strong>Precio: $${producto.precio}</strong></li>
-        </ul>
+        <div class="card-producto">
+            <img src="${producto.img}" alt="${producto.nombre}">
+            <p>Id: ${producto.id}</p>
+            <p>Nombre: ${producto.nombre}</p>
+            <p>Precio:$${producto.precio}</p>
+            <p>Activo: ${producto.activo}</p>
+        </div>
         
-        <input class="button" type="button" id="updateProducto_button" value="Modificar producto">
+        <button class="button" type="button" id="updateProducto_button">Modificar producto</button>
             
         `;
 
-    listado_productos.innerHTML = htmlProducto;
+    contenedor_productos.innerHTML = htmlProducto;
 
     let updateProducto_button = document.getElementById("updateProducto_button");
 
@@ -65,26 +66,22 @@ function crearFormulario(event, producto) {
             
             <label for="nombreProd">Nombre</label>
             <input type="text" name="nombre" id="nombreProd" value="${producto.nombre}">
-            <br>
 
             <label for="precioProd">Precio</label>
             <input type="number" name="precio" id="precioProd" value="${producto.precio}">
-            <br>
 
             <label for="tipoProd">Tipo</label>
             <select name="tipo" id="tipoProd">
                 <option value="Sellado">Sellado</option>
                 <option value="Accesorio">Accesorio</option>
             </select>
-            <br>
 
             <label for="imgProd">Imagen</label>
             <input type="text" name="img" id="imgProd" value="${producto.img}">
-            <br>
 
             <input type="hidden" name="activo" value="${producto.activo}"> 
 
-            <input class="button" type="submit" value="Modificar producto">
+            <button class="button" type="submit">Modificar producto</button>
         </form>
     `;
     // TUVE QUE AGREGAR XQ REQUIERE CAMPO ACTIVO<input type="hidden" name="activo" value="${producto.activo}">
@@ -98,46 +95,6 @@ function crearFormulario(event, producto) {
         modificarProducto(event);
     });
 }
-
-
-// async function modificarProducto(event) {
-//     event.preventDefault();
-
-//     let url = "http://localhost:3000/api/productos";
-    
-//     let formData = new FormData(event.target);
-//     console.log(formData);
-//     let data = Object.fromEntries(formData.entries());
-//     console.log(data);
-
-//     try {
-//         let response = await fetch(url, {
-//             method: "PUT",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(data)
-//         });
-
-//         let result = await response.json(); 
-
-//         if(response.ok) { 
-//             alert(result.message);
-
-//             listado_productos.innerHTML = "";
-//             contenedor_formulario.innerHTML = "";
-
-//         } else {
-//             console.error("Error: ", error.message);
-//             alert(error.message);
-//         }
-
-//     } catch (error) {
-//         console.error("Error al enviar los datos: ", error);
-//         alert("Error al procesar la solicitud");
-//     }
-
-// }
 
 async function modificarProducto(event) {
     event.preventDefault();
@@ -165,7 +122,7 @@ async function modificarProducto(event) {
             console.log(result.message);
             alert(result.message);
 
-            listado_productos.innerHTML = "";
+            contenedor_productos.innerHTML = "";
             contenedor_formulario.innerHTML = "";
 
         } else {
@@ -181,7 +138,7 @@ async function modificarProducto(event) {
 }
 
 function mostrarError(message) {
-    listado_productos.innerHTML = `
+    contenedor_productos.innerHTML = `
         <li class="mensaje-error">
             <p>
                 <strong>Error:</strong>
