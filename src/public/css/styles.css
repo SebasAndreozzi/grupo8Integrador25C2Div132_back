@@ -330,6 +330,10 @@ main h1 {
 
 }
 
+.login-logo{
+    margin: 0;
+}
+
 .login-section h1{
     color: var(--azul);
     margin: 0;
