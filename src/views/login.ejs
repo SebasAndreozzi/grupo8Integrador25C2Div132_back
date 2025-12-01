@@ -1,36 +1,40 @@
 <%- include("partials/head.ejs") %>
 
+<main class="login-main">
+     
+    <section class="login-section">
+        <h1> <%= about %> </h1>
 
-<h1> <%= about %> </h1>
+        <!-- Amosamos o mensaxe de erro do endpoint -->
+        <% if (typeof error !== "undefined") { %>
+            <div class="error-message">
+                <%= error %>
+            </div>
+        <% } %>
 
-<!-- Amosamos o mensaxe de erro do endpoint -->
-<% if (typeof error !== "undefined") { %>
-    <div class="error-message">
-        <%= error %>
-    </div>
-<% } %>
+        <!-- Ahora los datos no los enviamos con fetch, sino con <form> -> Necesitamos parsear estos datos (no json) en nuestra aplicacion-->
+        <form id="login-form" action="/login" method="POST" autocomplete="off">
 
-<!-- Ahora los datos no los enviamos con fetch, sino con <form> -> Necesitamos parsear estos datos (no json) en nuestra aplicacion-->
-<form id="login-form" action="/login" method="POST" autocomplete="off">
+            <label for="emailUser">Email:</label>
+            <input type="email" name="correo" id="emailUser" required>
 
-    <label for="emailUser">Email</label>
-    <input type="email" name="correo" id="emailUser" required>
+            <label for="passwordUser">Password:</label>
+            <input type="password" name="password" id="passwordUser" required>
 
-    <label for="passwordUser">Password</label>
-    <input type="password" name="password" id="passwordUser" required>
+            <button type="submit" class="button">Login</button>
+            <button id="acceso" class="button">Acceso rápido</button>
+        </form>
+    </section>
+    
 
-    <input type="submit" class="btn-login" value="Login">
-    <input type="button" id="acceso" class="btn-login" value="Acceso rápido">
-</form>
+    <!-- Enviando unha peticion POST con <form>
+    - Express no sabe cómo leer el cuerpo de la petición POST si no tienes un middleware de parsing.
 
-<!-- Enviando unha peticion POST con <form>
-- Express no sabe cómo leer el cuerpo de la petición POST si no tienes un middleware de parsing.
+    - En el caso de un formulario HTML clásico (method="POST"), el navegador envía los datos como application/x-www-form-urlencoded por defecto.
 
-- En el caso de un formulario HTML clásico (method="POST"), el navegador envía los datos como application/x-www-form-urlencoded por defecto.
-
-- Si no tienes el parser de urlencoded, req.body será undefined.
-Envía datos como `application/x-www-form-urlencoded` → necesita `express.urlencoded`.-->
-
+    - Si no tienes el parser de urlencoded, req.body será undefined.
+    Envía datos como `application/x-www-form-urlencoded` → necesita `express.urlencoded`.-->
+</main>
 <script  src="js/login.js"></script>
 
 <%- include("partials/footer.ejs") %>
