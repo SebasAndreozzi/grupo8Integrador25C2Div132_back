@@ -14,7 +14,6 @@ router.get("/cliente", getActiveProducts);
 router.get("/:id",  validateId , getProductById);
 
 // POST -> Crear nuevo Producto
-// router.post("/", validacionFormularios, createProduct);
 //                  ▼ objeto multer q tendra metodo single(una imagen a la vez)
 router.post("/",multerUploader.single("image"), validacionFormularios, createProduct)
 

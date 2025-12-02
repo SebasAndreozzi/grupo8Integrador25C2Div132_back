@@ -20,6 +20,7 @@ import { handleMulterError } from "./src/api/middlewares/multer-middleware.js";
 
 const SESSION_KEY = enviroments.session_key;
 
+import { ventasRoutes } from "./src/api/routes/index.js";
 import { usuarioRoutes } from "./src/api/routes/index.js";
 import { viewRoutes } from "./src/api/routes/index.js";
 /*======================
@@ -53,6 +54,7 @@ app.use(
 =====================*/
 
 app.use("/api/productos", productRoutes);
+app.use("/api/ventas", ventasRoutes);
 app.use("/", usuarioRoutes);
 app.use("/", viewRoutes);
 

@@ -36,11 +36,6 @@ export const getActiveProducts = async (req, res) => {
             payload: rows,
             message: rows.length === 0 ? "No se encontraron productos" : "Productos encontrados"
         });
-        // Optimizacion 2: Devolver un mensaje haya o no haya productos
-
-        /* El término "payload" en el contexto de bases de datos se refiere 
-        a la parte de los datos transmitidos que constituye el mensaje real 
-        o la información útil, excluyendo los encabezados, metadatos o información de control necesaria para la entrega del mensaje*/
 
     } catch (error) {
         console.error("Error obteniendo productos", error.message);
