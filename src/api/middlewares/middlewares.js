@@ -27,7 +27,7 @@ const validateId = (req, res, next) => {
 
     // convertimos el params id (originalmente un string xq viene de una URL) a un numero entero (integer en base 10 decimal)
     req.id = parseInt(id, 10); // convertimos el id en un entero
-    console.log("Id validado!: ", req.id),
+    //console.log("Id validado!: ", req.id),
     
     next(); // continuar al sig middleware
 } 

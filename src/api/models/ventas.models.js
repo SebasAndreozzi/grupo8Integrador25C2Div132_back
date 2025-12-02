@@ -16,7 +16,7 @@ export const insertVenta = (fecha, usuario, monto) =>{
     return connection.query(sql, [fecha, usuario, monto]);
 }
 
-export const insertVentaProducto = (ventaId, id, productoId, cantidad) => {
-    let sql = `INSERT INTO ventaProducto (ventas_id, productos_id, precio, cantidad) VALUES (?,?,?,?)`;
+export const insertVentaProducto = (ventaId, productoId, precio, cantidad) => {
+    let sql = `INSERT INTO venta_producto (ventas_id, productos_id, precio, cantidad) VALUES (?,?,?,?)`;
     return connection.query(sql, [ventaId, productoId, precio, cantidad]);
 }
