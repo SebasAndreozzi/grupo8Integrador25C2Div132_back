@@ -9,6 +9,7 @@ import {
 } from "../controllers/view.controllers.js";
 
 const router = Router();
+router.get("/", requireLogin, renderDashboard);
 
 // GET para el dashboard, requiere login previo para acceder y luego renderiza la vista.
 router.get("/dashboard", requireLogin, renderDashboard);

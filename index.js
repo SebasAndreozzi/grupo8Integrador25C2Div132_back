@@ -55,6 +55,7 @@ app.use(
 
 app.use("/api/productos", productRoutes);
 app.use("/api/ventas", ventasRoutes);
+app.use("/api/usuarios", usuarioRoutes);
 app.use("/", usuarioRoutes);
 app.use("/", viewRoutes);
 

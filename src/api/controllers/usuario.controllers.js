@@ -1,5 +1,45 @@
+/*=========================
+// Controladores usuario
+==========================*/
+
 import { selectUserByCredentials } from "../models/usuario.models.js"; // Importa la función del modelo de datos para buscar usuarios por credenciales.
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
+import UserModels from "../models/usuario.models.js"
+
+
+
+export const insertUser = async (req, res) => {
+    try {
+        const { correo, password } = req.body;
+
+        if (!correo || !password) {
+            return res.status(400).json({
+                message: "Datos inválidos, faltan campos"
+            });
+        }
+
+        // Hashear contraseña ANTES de guardar
+        const hashedPassword = await hashPassword(password);
+
+        // Guardar en la base la contraseña hasheada
+        const [rows] = await UserModels.insertUser(correo, hashedPassword);
+
+        return res.status(201).json({
+            message: "Usuario creado con éxito!",
+            userId: rows.insertId
+        });
+
+    } catch (error) {
+        console.log("Error interno del servidor:", error);
+
+        return res.status(500).json({
+            message: "Error interno del servidor",
+            error: error.message
+        });
+    }
+};
+
+
 
 export const loginUser = async (req, res) => {
     try {
@@ -18,6 +58,7 @@ export const loginUser = async (req, res) => {
         }
 
         const user = rows[0];
+        console.table(user);
 
         // COMPARAR PASSWORD CON BCRYPT
         const isMatch = await comparePassword(password, user.password);
@@ -30,7 +71,7 @@ export const loginUser = async (req, res) => {
             });
         }
 
-        // SI TODO OK → CREAR SESIÓN
+        // SI TODO OK → GUARDAMOS LA SESION
         req.session.user = {
             id: user.id,
             correo: user.correo

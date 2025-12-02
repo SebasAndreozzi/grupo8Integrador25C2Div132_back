@@ -7,3 +7,15 @@ export const selectUserByCredentials = (correo) => {
     const sql = "SELECT * FROM usuarios WHERE correo = ?";
     return connection.query(sql, [correo]);
 };
+
+
+
+export const insertUser = (correo, password) => {
+    const sql = `INSERT INTO usuarios (correo, password) values (?,?)`;
+    return connection.query(sql, [correo, password])
+}
+
+export default {
+    insertUser
+}
+

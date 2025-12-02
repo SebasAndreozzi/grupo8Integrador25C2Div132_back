@@ -1,21 +1,67 @@
 let altaProducto_form = document.getElementById("altaProducto-form");
-let url = "http://localhost:3000/api/productos";
+let altaUsers_form = document.getElementById("altaUsers-form");
 
+let urlProduct = "http://localhost:3000/api/productos";
+let urlUser = "http://localhost:3000/api/usuarios";
+
+
+// alta usuarios
+altaUsers_form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    let formDataUsuarios = new FormData(event.target); //Transformamos en objeto formdata los campos del usuario
+
+    let data = Object.fromEntries(formDataUsuarios.entries()); //transformaamos a objeto js el objeto FormData
+
+    console.log(data); //en console web
+
+    // datos del usuario al endpoint api/usuarios
+    try {
+        let response = await fetch(urlUser, {
+            method: "POST",
+            headers: {
+                "Content-Type":"application/json",
+            },
+            body: JSON.stringify(data)   // ← importante: sin JSON, sin headers
+        });
+
+        //Procesamos la respuesta que nos devuelve
+        if (response.ok) {
+            console.log(response);
+            
+            let result = await response.json();
+            console.log(result);
+            alert(result.message);
+        } 
+
+    } catch (error) { //error de red
+        console.log("Error al enviar los datos : ", error);
+        alert("Error al procesar la solicitud");
+    }
+
+
+})
+
+
+
+
+
+// Alta productos
 altaProducto_form.addEventListener("submit", async event => {
     event.preventDefault();
 
-    const formData = new FormData(altaProducto_form);
+    const formDataProductos = new FormData(altaProducto_form);
 
-    enviarProducto(formData);
+    enviarProducto(formDataProductos);
 });
 
 
-async function enviarProducto(formData) {
-    console.table(formData);// recibimos correctamente los datos del form
+async function enviarProducto(formDataProductos) {
+    console.table(formDataProductos);// recibimos correctamente los datos del form
     try {
-        let response = await fetch(url, {
+        let response = await fetch(urlProduct, {
             method: "POST",
-            body: formData   // ← importante: sin JSON, sin headers
+            body: formDataProductos   // ← importante: sin JSON, sin headers
         });
 
         //Procesamos la respuesta que nos devuelve
@@ -25,7 +71,7 @@ async function enviarProducto(formData) {
         if (response.ok) {
             alert(result.message);
         } else {//en caso de q haya otra respuesta distinta de ok
-            alert(result.message);
+            alert(result.error);
         }
 
     } catch (error) {

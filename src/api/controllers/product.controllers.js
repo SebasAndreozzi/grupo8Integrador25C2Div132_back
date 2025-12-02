@@ -3,7 +3,7 @@ CONTROLADORES DE PRODUCTO
 definicion: se encarga de gestionas las llamadas peticiones(req) y respuestas(res)
 =============================*/
 
-import ProductModel from "../models/product.models.js"; //traemos consultas sql jeje
+import ProductModel from "../models/product.models.js"; //traemos consultas sql
 
 
 // Controlador GET: consulta todos los productos y devuelve el resultado como JSON
@@ -36,7 +36,6 @@ export const getActiveProducts = async (req, res) => {
             payload: rows,
             message: rows.length === 0 ? "No se encontraron productos" : "Productos encontrados"
         });
-
     } catch (error) {
         console.error("Error obteniendo productos", error.message);
 

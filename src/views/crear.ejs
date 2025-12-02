@@ -4,32 +4,55 @@
 
 <main>
     <h1><%=about %></h1>
-    <form id="altaProducto-form" class="productos-form">
-        <label for="nameProd">Nombre: </label>
-        <input id="nameProd" name="nombre" type="text" required>
-
-        <label for="priceProd">Precio: </label>
-        <input id="priceProd" name="precio" type="number" required>
-
-        <label for="categoryProd">Categoría: </label>
-        <select id="categoryProd" name="tipo" required>
-            <option value="Sellado">Sellado</option>
-            <option value="Accesorio">Accesorio</option>
-        </select>
-
-        <label id="dropArea" class="drop-zone">
-        <p class="drop-text">Arrastra un archivo aquí o <span>explora</span></p>
-        <p class="drop-subtext">Tamaño máximo: 5MB</p>
-        <input type="file" id="fileInput" name="image" />
-        </label>
-
-        <div class="file-preview" id="filePreview">
-        <div id="fileName">Archivo: </div>
-        </div>
-        <button class="button" type="submit">Crear Producto</button>
-    </form>
-
+    <div id="contenedor-Deproductos">
+        
+        <h3>Alta productos</h3>
+        
+        <!-- Form para crear productos y enviarlos a api/productos -->
+        <form id="altaProducto-form" class="productos-form">
+            <label for="nameProd">Nombre: </label>
+            <input id="nameProd" name="nombre" type="text" required>
+            
+            <label for="priceProd">Precio: </label>
+            <input id="priceProd" name="precio" type="number" required>
+            
+            <label for="categoryProd">Categoría: </label>
+            <select id="categoryProd" name="tipo" required>
+                <option value="Sellado">Sellado</option>
+                <option value="Accesorio">Accesorio</option>
+            </select>
+            
+            <label id="dropArea" class="drop-zone">
+                <p class="drop-text">Arrastra un archivo aquí o <span>explora</span></p>
+                <p class="drop-subtext">Tamaño máximo: 5MB</p>
+                <input type="file" id="fileInput" name="image" />
+            </label>
+            
+            <div class="file-preview" id="filePreview">
+                <div id="fileName">Archivo: </div>
+            </div>
+            <button class="button" type="submit">Crear Producto</button>
+        </form>
+    </div>
+    
     <hr class="separador">
+    
+    <div id="contenedor-usuarios">
+        <h3>Alta de usuarios</h3>
+        
+        <!-- Form para crear Usuarios y enviarlos a api/usuarios -->
+        <form id="altaUsers-form" class="productos-form">
+            <label for="emailUser">Email:</label>
+            <input type="email" name="correo" id="emailUser" required>
+            
+            <label for="passwordUser">Password:</label>
+            <input type="password" name="password" id="passwordUser" required>
+            
+            <button class="button" type="submit">Crear Usuario</button>
+        </form>
+        
+    </div>
+    
     <div id="contenedor-productos"></div>
 </main>
 
