@@ -36,7 +36,7 @@ function mostrarProducto(producto) {
             <p>Id: ${producto.id}</p>
             <p>Nombre: ${producto.nombre}</p>
             <p>Precio: $${producto.precio}</p>
-            <p>Activo: ${producto.activo}</p>
+            <p>${producto.activo ? "Activo" : "Inactivo"}</p>
         </div>
 
         <button class="button" id="updateProducto_button">Modificar producto</button>

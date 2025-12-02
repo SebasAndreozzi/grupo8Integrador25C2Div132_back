@@ -280,6 +280,15 @@ main h1 {
     top: 10px;
     right: 10px;
 }
+
+.drop-zone{
+
+}
+
+.file-preview{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
 /*===============
    TERMINA MAIN
 =================*/
@@ -351,31 +360,33 @@ main h1 {
 /* Subir imagen (multer) */
 
 .drop-zone {
-  display: block;
-  background-color: #ffffff;
-  border: 2px dashed #94a3b8;
-  border-radius: 1rem;
-  padding: 3rem;
-  text-align: center;
-  transition: all 0.3s ease;
-  cursor: pointer;
+    display: block;
+    background-color: #ffffff;
+    border: 2px dashed #94a3b8;
+    border-radius: 1rem;
+    padding: 3rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .drop-zone:hover {
-  border-color: #2563eb;
-  background-color: #f6fbff;
+    border-color: var(--azul);
+    background-color: var(--blanco);
 }
 
 .drop-zone .dragover {
-  transform: scale(1.03);
-  border-color: #2563eb;
-  background-color: #f6fbff;
+    transform: scale(1.03);
+    border-color: var(--azul);
+    background-color: var(--blanco);
 }
 
 .drop-zone .upload-icon {
   width: 64px;
   height: auto;
-  fill: #2563eb;
+  fill: var(--azul);
   margin-bottom: 1rem;
 }
 
@@ -405,15 +416,16 @@ input[type="file"] {
 }
 
 .file-preview {
-  margin-top: 1.5rem;
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  padding: 1rem;
-  display: none;
-  flex-direction: column;
-  font-size: 0.9rem;
-  color: #1f2937;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    background: var(--blanco);
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 1rem;
+    display: none;
+    flex-direction: column;
+    font-size: 0.9rem;
+    color: #1f2937;
 }
 
 
