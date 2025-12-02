@@ -3,21 +3,22 @@ import { __dirname, join } from "../utils/index.js";
 import path from "path"
 import { randomUUID } from "crypto";
 
+// config del storage: diskStorage se guarda en el disco
 const storageConfig = multer.diskStorage({
-    destination: (req, file, callback) => {
+    destination: (req, file, callback) => {  
         callback(null, join(__dirname, "src/public/img")
         )
     }
     , filename: (req, file, callback) => {
-        const ext = path.extname(file.originalname).toLowerCase()
-        const nombreFichero = randomUUID() + ext;
+        const ext = path.extname(file.originalname).toLowerCase() //la extension 
+        const nombreFichero = randomUUID() + ext; //id aleatoria y extension
         callback(null, nombreFichero)
     }
 })
 
 const fileFilterConfig = (req,file,callback) => {
-    const tiposPermitidos = ["image/png", "image/jpeg", "image/webp", "image/gif"]
-    const tipo = file.mimetype
+    const tiposPermitidos = ["image/png", "image/jpeg", "image/webp"]
+    const tipo = file.mimetype //tipo del fichero
     if (!tiposPermitidos.includes(tipo)) {
         return callback(new Error("Tipo de archivo no permitido"), false);
     }
@@ -41,6 +42,7 @@ export const handleMulterError = (err, req, res, next) => {
     });
 }
 
+// cargador: donde se guardará, limite de tamaño del fichero y filtro personalizado (solo tipo de imagenes q yo permito)
 export const multerUploader = multer({
     storage: storageConfig,
     limits: {fileSize: 5 * 1024 * 1024},

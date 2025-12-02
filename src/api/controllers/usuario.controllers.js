@@ -2,35 +2,53 @@ import { selectUserByCredentials } from "../models/usuario.models.js"; // Import
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 
 export const loginUser = async (req, res) => {
-    const { correo, password } = req.body;
-    console.log(await hashPassword(password));
-    const [rows] = await selectUserByCredentials(correo, password); // Ejecuta la consulta a la base de datos de forma asíncrona.
-    if (rows.length === 0) { // Comprueba si la consulta no arrojó resultados (credenciales incorrectas).
-        return res.redirect("/login"); // Si falla el login, redirige al usuario de vuelta a la página de login.
+    try {
+        const { correo, password } = req.body;
+        console.log(await hashPassword(password));
+
+        // BUSCAR USUARIO SOLO POR CORREO
+        const [rows] = await selectUserByCredentials(correo);
+
+        if (rows.length === 0) {
+            return res.render("login", {
+                title: "Login",
+                about: "Iniciar sesión",
+                error: "Credenciales incorrectas"
+            });
+        }
+
+        const user = rows[0];
+
+        // COMPARAR PASSWORD CON BCRYPT
+        const isMatch = await comparePassword(password, user.password);
+
+        if (!isMatch) {
+            return res.render("login", {
+                title: "Login",
+                about: "Iniciar sesión",
+                error: "Credenciales incorrectas"
+            });
+        }
+
+        // SI TODO OK → CREAR SESIÓN
+        req.session.user = {
+            id: user.id,
+            correo: user.correo
+        };
+
+        res.redirect("/dashboard");
+
+    } catch (error) {
+        console.log("Error en login:", error);
+
+        res.render("login", {
+            title: "Login",
+            about: "Iniciar sesión",
+            error: "Error interno en el servidor"
+        });
     }
-    const user = rows[0];
-    console.table(user);
-
-    const isMatch = await comparePassword(password, user.password);
-    if(!isMatch)
-    {
-        return res.render("login", {
-        title: "Login",    
-        about: "Login dashboard",
-        error: "Credenciales incorrectas"
-        })
-
-    }
-
-
-
-    req.session.user = { // Si las credenciales son correctas, crea una sesión para el usuario.
-        id: rows[0].id, // Guarda el ID del usuario en la sesión.
-        correo: rows[0].correo, // Guarda el correo del usuario en la sesión.
-    };
-
-    res.redirect("/dashboard"); // Redirige al usuario a la página principal o dashboard tras iniciar sesión con éxito.
 };
+
 
 export const logoutUser = (req, res) => { // Define la función que maneja el cierre de sesión (POST /logout).
     req.session.destroy((err) => {

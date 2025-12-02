@@ -44,38 +44,29 @@ const requireLogin = (req, res, next) => {
 
 //validacion para la creacion de un producto
 const validacionFormularios = (req, res, next) => {
-    const { nombre, precio, tipo, img } = req.body;
+    const { nombre, precio, tipo } = req.body;
 
-    // nombre
-    if (!nombre || nombre.trim().length < 3) {//trim(): eliminar todos los espacios en blanco de la cadena.
-        return res.status(400).json({
-            message: "El nombre es obligatorio y debe tener al menos 3 caracteres."
-        });
+    if (!nombre || nombre.trim().length < 3) {
+        return res.status(400).json({ message: "El nombre debe tener al menos 3 caracteres." });
     }
 
-    // precio
     if (!precio || isNaN(precio) || Number(precio) <= 0) {
-        return res.status(400).json({
-            message: "El precio debe ser un número mayor a 0."
-        });
+        return res.status(400).json({ message: "El precio debe ser mayor a 0." });
     }
 
-    // tipo(categoría)
     const categoriasValidas = ["Sellado", "Accesorio"];
     if (!tipo || !categoriasValidas.includes(tipo)) {
-        return res.status(400).json({
-            message: "La categoría no es válida."
-        });
+        return res.status(400).json({ message: "La categoría no es válida." });
     }
-    // URL de imagen
-    if (!img || !img.startsWith("http")) {
-        return res.status(400).json({
-            message: "La URL de imagen no es válida."
-        });
+
+    // de la image multer
+    if (!req.file) {
+        return res.status(400).json({ message: "Debes subir una imagen." });
     }
 
     next();
 };
+
 
 
 // middlewares de ruta para validad el id en la ruta /api/products/:id

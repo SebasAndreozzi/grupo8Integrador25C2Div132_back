@@ -7,12 +7,11 @@
         <h1> <%= about %> </h1>
 
         <!-- Amosamos o mensaxe de erro do endpoint -->
-        <% if (typeof error !== "undefined") { %>
-            <div class="error-message">
+        <% if (error) { %>
+            <div class="mensaje-error">
                 <%= error %>
             </div>
         <% } %>
-
         <!-- Ahora los datos no los enviamos con fetch, sino con <form> -> Necesitamos parsear estos datos (no json) en nuestra aplicacion-->
         <form id="login-form" action="/login" method="POST" autocomplete="off">
 

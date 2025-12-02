@@ -17,9 +17,15 @@
             <option value="Accesorio">Accesorio</option>
         </select>
 
-        <label for="imgProd">Imágen: </label>
-        <input id="imgProd" name="img" type="text" required>
+        <label id="dropArea" class="drop-zone">
+        <p class="drop-text">Arrastra un archivo aquí o <span>explora</span></p>
+        <p class="drop-subtext">Tamaño máximo: 5MB</p>
+        <input type="file" id="fileInput" name="image" />
+        </label>
 
+        <div class="file-preview" id="filePreview">
+        <div id="fileName">Archivo: </div>
+        </div>
         <button class="button" type="submit">Crear Producto</button>
     </form>
 

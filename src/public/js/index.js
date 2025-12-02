@@ -28,6 +28,7 @@ function mostrarProductos(array)
             <div class= "card-producto">
                 <img src="${producto.img}" alt="${producto.nombre}">
                 <h3>${producto.nombre}</h3>
+                <p>id: ${producto.id}</h3>
                 <p>$${producto.precio}</p>
                 <p>${producto.activo ? "Activo" : "Inactivo"}</p>
             </div>

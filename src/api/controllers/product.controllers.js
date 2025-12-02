@@ -81,73 +81,55 @@ export const getProductById = async (req, res)=>{
 }
 
 // Controlador PUT: actualiza un producto existente con los datos enviados por el cliente
-export const createProduct = async (req, res) =>{
-    try
-    {
-        let {nombre, img, tipo, precio} = req.body;
+export const createProduct = async (req, res) => {
+    try {
+        const { nombre, precio, tipo } = req.body;
+        const img = "/img/" + req.file.filename;
 
-        console.log(req.body);
-        console.log(`Nombre producto: ${nombre}`); 
+        await ProductModel.insertProduct(nombre, img, tipo, precio);
 
-        if(!tipo || !img || !nombre || !precio)
-        {
-            return res.status(400).json({ //bad request
-                message: "Faltan datos obligatorios (nombre, img, tipo o precio)",
-            });
-
-        }
-
-        let [rows] = await ProductModel.insertProduct(nombre, img, tipo, precio); //let?
-
-        console.log(rows);//console
-
-        res.status(201).json({ //created
-            message: "Producto creado con exito!",
-        });
+        res.json({ message: "Producto creado correctamente" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error al crear producto" });
     }
-    catch(error){
-        console.log("Error al crear producto: ", error);
-        res.status(500).json({ // internal server error
-            message: "Error interno del servidor",
-            error: error.message
-        });
-    }
-}
+};
+
 
 
 // CONTROLADOR MODIFY -> Modifica un producto existente utilizando los datos enviados por el cliente y ejecuta la actualización y devuelve resultado como JSON
-export const modifyProduct = async (req, res) =>{
-    try
-    {   // Extraemos los datos del cuerpo de la petición
-        let {id, nombre, img, tipo, precio, activo} = req.body;
-        if(!id || !nombre || !img || !tipo || !precio || !activo)
-        {
-            return res.status(400).json({ //bad request
-                message: "Faltan campos requeridos"
-            });
-        }
-        let [result] = await ProductModel.updateProduct(nombre, img, tipo, precio, activo, id);
-        
-        console.log(result); // console
+export const modifyProduct = async (req, res) => {
+    try {
+        let { id, nombre, tipo, precio, activo } = req.body;
 
-        if(result.affectedRows === 0)
-        {
-            return res.status(400).json({ //bad request
-                message:"No se actualizo el producto"
-            })
-        }
-        res.status(200).json({ //ok
-            message: `Producto con id: ${id} actualizado correctamente`
-        });
-    }
-    catch(error){
-        console.error("Error al actualizar producto: ", error);
-        res.status(500).json({ //internal server error
-            message: `Error interno del servidor: ${error}`
-        });
-    }
-}
+        // SI ENVIA IMAGEN
+        let img = req.file ? "/img/" + req.file.filename : null;
 
+        if (!id || !nombre || !tipo || !precio || activo === undefined) {
+            return res.status(400).json({ message: "Faltan campos requeridos" });
+        }
+
+        // Si NO envió nueva imagen → mantener la anterior
+        if (!img) {
+            const [rows] = await ProductModel.selectProductById(id);
+            img = rows[0].img; 
+        }
+
+        const [result] = await ProductModel.updateProduct(nombre, img, tipo, precio, activo, id);
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ message: "No se actualizó el producto" });
+        }
+
+        return res.status(200).json({
+            message: `Producto con id ${id} modificado correctamente`
+        });
+
+    } catch (error) {
+        console.error("Error al modificar producto:", error);
+        return res.status(500).json({ message: "Error interno del servidor" });
+    }
+};
 
 // CONTROLADOR DELETE-> Eliminar producto existente utilizando el id y devuelve como resultado como JSON
 export const removeProduct = async (req, res)=>{

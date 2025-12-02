@@ -348,6 +348,75 @@ main h1 {
     row-gap: 10px;
 }
 
+/* Subir imagen (multer) */
+
+.drop-zone {
+  display: block;
+  background-color: #ffffff;
+  border: 2px dashed #94a3b8;
+  border-radius: 1rem;
+  padding: 3rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.drop-zone:hover {
+  border-color: #2563eb;
+  background-color: #f6fbff;
+}
+
+.drop-zone .dragover {
+  transform: scale(1.03);
+  border-color: #2563eb;
+  background-color: #f6fbff;
+}
+
+.drop-zone .upload-icon {
+  width: 64px;
+  height: auto;
+  fill: #2563eb;
+  margin-bottom: 1rem;
+}
+
+.drop-zone p {
+  margin: 0.25rem 0;
+}
+
+.drop-text {
+  font-size: 1rem;
+  color: #374151;
+}
+
+.drop-text span {
+  font-weight: bold;
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.drop-subtext {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file-preview {
+  margin-top: 1.5rem;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 1rem;
+  display: none;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: #1f2937;
+}
+
+
 @media screen and (max-width: 730px) {
     .integrantes{
         font-size: x-small;

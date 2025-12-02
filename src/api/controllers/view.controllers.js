@@ -5,7 +5,7 @@ export const renderLoginView = (req, res) => {
     res.render("login", {
         title: "Login",
         about: "Iniciar sesión",
-        error: "Credenciales incorrectas"
+        error: null
     });
 };
 

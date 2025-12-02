@@ -2,148 +2,183 @@ let getProductos_form = document.getElementById("getProductos-form");
 let contenedor_productos = document.getElementById("contenedor-productos");
 let contenedor_formulario = document.getElementById("contenedor-formulario");
 
-
+// BUSCAR PRODUCTO POR ID 
 getProductos_form.addEventListener("submit", async (event) => {
-    
     event.preventDefault();
 
-    let formData = new FormData(event.target);
-
+    let formData = new FormData(event.target); 
+    
     let data = Object.fromEntries(formData.entries());
 
     let idProducto = data.id;
 
     try {
-
         let response = await fetch(`http://localhost:3000/api/productos/${idProducto}`);
-
         let datos = await response.json();
+        // Extraigo el producto que devuelve payload
+        let producto = datos.payload[0]; // Apuntamos a la respuesta, vamos a payload que trae el array con el objeto y extraemos el primer y unico elemento
 
-        let producto = datos.payload[0];
-
-        mostrarProducto(producto); 
+        mostrarProducto(producto);
 
     } catch (error) {
         console.error("Error: ", error);
     }
-
 });
 
+// ======================================================
+// === MOSTRAR PRODUCTO EN PANTALLA ===
+// ======================================================
 function mostrarProducto(producto) {
 
-    let htmlProducto = `
+    contenedor_productos.innerHTML = `
         <div class="card-producto">
             <img src="${producto.img}" alt="${producto.nombre}">
             <p>Id: ${producto.id}</p>
             <p>Nombre: ${producto.nombre}</p>
             <p>Precio: $${producto.precio}</p>
-            <p>${producto.activo ? "Activo" : "Inactivo"}</p>
+            <p>Activo: ${producto.activo}</p>
         </div>
-        
-        <button class="button" type="button" id="updateProducto_button">Modificar producto</button>
-            
-        `;
 
-    contenedor_productos.innerHTML = htmlProducto;
+        <button class="button" id="updateProducto_button">Modificar producto</button>
+    `;
 
-    let updateProducto_button = document.getElementById("updateProducto_button");
-
-    updateProducto_button.addEventListener("click", event => {
-        crearFormulario(event, producto);
-    });
+    document
+        .getElementById("updateProducto_button")
+        .addEventListener("click", () => crearFormulario(producto));
 }
 
+// ======================================================
+// === CREAR FORMULARIO DE MODIFICACIÓN DINÁMICO ===
+// ======================================================
+function crearFormulario(producto) {
 
-function crearFormulario(event, producto) {
-
-    event.stopPropagation(); // Evitamos la propagacion de eventos
-    console.table(producto); // Recibimos el producto para llenar los valores del formulario
-
-    let formularioHtml = `
+    contenedor_formulario.innerHTML = `
         <form id="updateProducts-form" class="productos-form">
-            
-            <input type="hidden" name="id" value="${producto.id}"> 
-            
-            <label for="nombreProd">Nombre</label>
-            <input type="text" name="nombre" id="nombreProd" value="${producto.nombre}">
 
-            <label for="precioProd">Precio</label>
-            <input type="number" name="precio" id="precioProd" value="${producto.precio}">
+            <input type="hidden" name="id" value="${producto.id}">
 
-            <label for="tipoProd">Tipo</label>
-            <select name="tipo" id="tipoProd">
+            <label>Nombre</label>
+            <input type="text" name="nombre" value="${producto.nombre}">
+
+            <label>Precio</label>
+            <input type="number" name="precio" value="${producto.precio}">
+
+            <label>Tipo</label>
+            <select name="tipo">
                 <option value="Sellado">Sellado</option>
                 <option value="Accesorio">Accesorio</option>
             </select>
 
-            <label for="imgProd">Imagen</label>
-            <input type="text" name="img" id="imgProd" value="${producto.img}">
+            <label>Estado</label>
+            <select name="activo">
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+            </select>
 
-            <input type="hidden" name="activo" value="${producto.activo}"> 
+            <label id="dropArea" class="drop-zone">
+                <p class="drop-text">Arrastra un archivo aquí o <span>explora</span></p>
+                <p class="drop-subtext">Tamaño máximo: 5MB</p>
+                <input type="file" id="fileInput" name="image">
+            </label>
+
+            <div class="file-preview" id="filePreview">
+                <div id="fileName">Archivo:</div>
+            </div>
 
             <button class="button" type="submit">Modificar producto</button>
         </form>
     `;
-    // TUVE QUE AGREGAR XQ REQUIERE CAMPO ACTIVO<input type="hidden" name="activo" value="${producto.activo}">
 
-    contenedor_formulario.innerHTML = formularioHtml;
+    // Activar Drag & Drop (recién ahora existen los elementos)
+    initDropzone(
+        document.getElementById('dropArea'),
+        document.getElementById('fileInput'),
+        document.getElementById('filePreview'),
+        document.getElementById('fileName')
+    );
 
-    let updateProducts_form = document.getElementById("updateProducts-form");
-
-    updateProducts_form.addEventListener("submit", event => {
-        console.log(event);
-        modificarProducto(event);
-    });
+    document
+        .getElementById("updateProducts-form")
+        .addEventListener("submit", modificarProducto);
 }
 
 async function modificarProducto(event) {
     event.preventDefault();
+    let url= "http://localhost:3000/api/productos";
 
-    let url = "http://localhost:3000/api/productos";
-    
     let formData = new FormData(event.target);
-    console.log(formData);
-
-    let data = Object.fromEntries(formData.entries());
-    console.log(data);
 
     try {
         let response = await fetch(url, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
+            body: formData   // IMPORTANTE: sin JSON, sin headers
         });
 
-        let result = await response.json(); 
+        let result = await response.json();
 
-        if(response.ok) { 
+        if (response.ok) {//si la peticion es exitosa, pasa hacer esto
             console.log(result.message);
             alert(result.message);
-
+            // Vaciamos el form y el listado 
             contenedor_productos.innerHTML = "";
             contenedor_formulario.innerHTML = "";
-
         } else {
-            mostrarError(result.message || "No se pudo modificar el producto");
-            return;
+            mostrarError(result.message);
         }
 
     } catch (error) {
-        console.error("Error al enviar los datos: ", error);
+        console.error("Error al modificar: ", error);
         alert("Error al procesar la solicitud");
     }
-
 }
+
 
 function mostrarError(message) {
     contenedor_productos.innerHTML = `
         <li class="mensaje-error">
-            <p>
-                <strong>Error:</strong>
-                <span>${message}</span>
-            </p>
+            <p><strong>Error:</strong> ${message}</p>
         </li>
     `;
+}
+
+/*======================================================
+=== DRAG & DROP GENÉRICO (reutilizable) ===
+======================================================*/
+function initDropzone(dropArea, fileInput, filePreview, fileName) {
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) {
+            showFile(fileInput.files[0], filePreview, fileName);
+        }
+    });
+
+    ['dragenter', 'dragover'].forEach(ev => {
+        dropArea.addEventListener(ev, e => {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(ev => {
+        dropArea.addEventListener(ev, e => {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+        });
+    });
+
+    dropArea.addEventListener('drop', e => {
+        const files = e.dataTransfer.files;
+        if (files.length) {
+            fileInput.files = files;
+            showFile(files[0], filePreview, fileName);
+        }
+    });
+}
+
+// ======================================================
+// === MOSTRAR ARCHIVO SELECCIONADO ===
+// ======================================================
+function showFile(file, preview, label) {
+    preview.style.display = 'flex';
+    label.textContent = `Archivo: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
 }
