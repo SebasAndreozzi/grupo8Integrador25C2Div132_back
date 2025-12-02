@@ -1,3 +1,4 @@
+import ProductModel from "../models/product.models.js"; //traemos consultas sql
 import connection from "../database/db.js";
 
 //nuevo renderLoginView
@@ -10,8 +11,8 @@ export const renderLoginView = (req, res) => {
 };
 
 export const renderDashboard = async (req, res) => {
-  const [rows] = await connection.query("SELECT * FROM productos");
-  res.render("index", {
+    const [rows]  = await ProductModel.selectAllProducts();
+    res.render("index", {
     title: "Tiendamon",
     about: "Lista de productos",
     products: rows,

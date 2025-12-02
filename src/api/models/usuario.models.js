@@ -15,7 +15,13 @@ export const insertUser = (correo, password) => {
     return connection.query(sql, [correo, password])
 }
 
+export const selectUsuarioById = (id) => {
+    let sql = "SELECT * FROM usuarios WHERE usuarios.id = ?";
+    return connection.query(sql, [id]);
+}
+
 export default {
-    insertUser
+    insertUser,
+    
 }
 

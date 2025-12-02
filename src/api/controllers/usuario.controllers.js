@@ -2,7 +2,7 @@
 // Controladores usuario
 ==========================*/
 
-import { selectUserByCredentials } from "../models/usuario.models.js"; // Importa la función del modelo de datos para buscar usuarios por credenciales.
+import { selectUserByCredentials, selectUsuarioById } from "../models/usuario.models.js"; // Importa la función del modelo de datos para buscar usuarios por credenciales.
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import UserModels from "../models/usuario.models.js"
 
@@ -39,7 +39,24 @@ export const insertUser = async (req, res) => {
     }
 };
 
+export const getUsuarioById = async (req, res)=>{ 
+    let {id} = req.params; // En el array le importa unicamente el id
+    const [rows] = await selectUsuarioById(id);
 
+    console.log(rows); //console
+    
+    if(rows.length === 0)
+    {
+        console.log(`Error!! No existe producto con el id ${id}`);
+        return res.status(404).json({ //not found
+            message:`No se encontro producto con id ${id}`
+        });
+    }
+    res.status(200).json({ //ok
+        payload: rows
+    });
+  
+}
 
 export const loginUser = async (req, res) => {
     try {

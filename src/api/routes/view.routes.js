@@ -8,8 +8,9 @@ import {
     renderEliminar
 } from "../controllers/view.controllers.js";
 
+import { loginUser, logoutUser } from "../controllers/usuario.controllers.js";
+import { renderLoginView } from "../controllers/view.controllers.js";
 const router = Router();
-router.get("/", requireLogin, renderDashboard);
 
 // GET para el dashboard, requiere login previo para acceder y luego renderiza la vista.
 router.get("/dashboard", requireLogin, renderDashboard);
@@ -25,5 +26,19 @@ router.get("/modificar", requireLogin, renderModificar);
 
 // GET para eliminar datos, requiere login previo y luego renderiza la vista.
 router.get("/eliminar", requireLogin, renderEliminar);
+
+
+
+/*========================
+        Login
+=========================*/
+//  GET para mostrar la vista del formulario de inicio de sesión.
+router.get("/login", renderLoginView);
+
+// POST para procesar los datos del formulario e iniciar sesión
+router.post("/login", loginUser);
+
+// POST para cerrar la sesión del usuario actual.
+router.post("/logout", logoutUser);
 
 export default router;

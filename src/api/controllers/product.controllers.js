@@ -72,7 +72,6 @@ export const getActiveProductById = async (req, res)=>{
         });
     }
 }
-
 // Controlador GET: obtiene un producto específico por su ID y devuelve la respuesta en JSON
 export const getProductById = async (req, res)=>{ 
     try{

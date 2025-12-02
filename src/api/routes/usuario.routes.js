@@ -1,26 +1,20 @@
 import { Router } from "express";
  // Importa las funciones controladoras que manejan la lógica de las rutas.
-import { insertUser, loginUser, logoutUser } from "../controllers/usuario.controllers.js";
-import { renderLoginView } from "../controllers/view.controllers.js";
+import { getUsuarioById, insertUser} from "../controllers/usuario.controllers.js";
+import { validateId } from "../middlewares/middlewares.js";
 
 const router = Router(); //inicializa una instancia de la aplicacion
 
-/*========================
-        Login
-=========================*/
-//  GET para mostrar la vista del formulario de inicio de sesión.
-router.get("/login", renderLoginView);
 
-// POST para procesar los datos del formulario e iniciar sesión
-router.post("/login", loginUser);
 
-// POST para cerrar la sesión del usuario actual.
-router.post("/logout", logoutUser);
 
 /*========================
-        Usuarios (crear, consultar, modificar, eliminar)
+        Usuarios 
 =========================*/
 router.post("/" , insertUser);
+
+router.get("/:id",validateId, getUsuarioById);
+
 
 
 export default router;
