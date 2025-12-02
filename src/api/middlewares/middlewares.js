@@ -17,7 +17,7 @@ const validateId = (req, res, next) => {
     const {id} = req.params;
 
     // validar q el ID sea un numero (de lo contrario la consulta podria generar un error en la base de datos)
-    if(!id || isNaN(id)|| id < 1)
+    if(!id || isNaN(id)|| id < 0)
     {
         return res.status(400).json({//bad request. La peticion http esta mal formado
             message: "El id debe ser un numero entero positivo"

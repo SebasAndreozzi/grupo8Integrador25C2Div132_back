@@ -45,6 +45,34 @@ export const getActiveProducts = async (req, res) => {
     }
 }
 
+export const getActiveProductById = async (req, res)=>{ 
+    try{
+        let {id} = req.params; // En el array le importa unicamente el id
+        const [rows] = await ProductModel.selectActiveProductById(id);
+
+        console.log(rows); //console
+        
+        if(rows.length === 0)
+        {
+            console.log(`Error!! No existe producto con el id ${id}`);
+            return res.status(404).json({ //not found
+                message:`No se encontro producto con id ${id}`
+            });
+        }
+        res.status(200).json({ //ok
+            payload: rows
+        });
+    }catch(error)
+    {
+        console.log(error);
+
+        res.status(500).json({ //internal server error
+            message:"Error interno del servidor",
+            error: error.message
+        });
+    }
+}
+
 // Controlador GET: obtiene un producto específico por su ID y devuelve la respuesta en JSON
 export const getProductById = async (req, res)=>{ 
     try{

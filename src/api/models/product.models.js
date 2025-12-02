@@ -17,6 +17,12 @@ const selectActiveProducts = () => {
     return connection.query(sql);
 }
 
+const selectActiveProductById = (id) => {
+    console.log(id);
+    let sql = "SELECT * FROM productos WHERE activo = 1 AND id = ? LIMIT 1";
+    return connection.query(sql, [id]); // ? = [id]  
+}
+
 // Traer traer productos por id
 //params: id sera el producto ingresado en la barra de consulta
 const selectProductById = (id) => {
@@ -55,17 +61,11 @@ const deleteProduct = (id) =>{
     return connection.query(sql,[id]);
 }
 
-
-
-
-
-
-
-
 export default {
     selectAllProducts,
     selectActiveProducts,
     selectProductById,
+    selectActiveProductById,
     insertProduct,
     updateProduct,
     deleteProduct

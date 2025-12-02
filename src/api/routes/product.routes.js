@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { validacionFormularios, validateId } from "../middlewares/middlewares.js";
-import { createProduct, getAllProducts, getActiveProducts, getProductById, modifyProduct, removeProduct } from "../controllers/product.controllers.js"; 
+import { createProduct, getAllProducts, getActiveProducts, getActiveProductById, getProductById, modifyProduct, removeProduct } from "../controllers/product.controllers.js"; 
 import { multerUploader } from "../middlewares/multer-middleware.js";
 
 const router = Router(); //inicializa una instancia de la aplicacion
@@ -9,6 +9,7 @@ const router = Router(); //inicializa una instancia de la aplicacion
 router.get("/", getAllProducts);
 
 router.get("/cliente", getActiveProducts);
+router.get("/cliente/:id", validateId, getActiveProductById);
 
 // get product by id -> Consultar producto por id , lo del async es por mysql importado desde connection from "../database/db.js"s
 router.get("/:id",  validateId , getProductById);
