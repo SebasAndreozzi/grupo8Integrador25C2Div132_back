@@ -48,10 +48,6 @@ export const createVenta = async (req, res) => {
     try {
         const { usuario, productos } = req.body;
 
-        if (!usuario || !Array.isArray(productos) || productos.length === 0) {
-            return res.status(400).json({ message: "Datos no ingresados" });
-        }
-
         // 1. Validar productos y calcular monto total
         let monto = 0;
 

@@ -67,6 +67,19 @@ const validacionFormularios = (req, res, next) => {
     next();
 };
 
+const validacionVenta = (req, res, next) => {
+    const { usuario, productos } = req.body;
+
+    if (!usuario || usuario.trim().length === 0) {
+        return res.status(400).json({ message: "Debe ingresar un nombre de usuario" });
+    }
+
+    if (!Array.isArray(productos) || productos.length === 0){
+        return res.status(400).json({ message: "Debe haber al menos 1 producto" });
+    }
+
+    next();
+};
 
 
 // middlewares de ruta para validad el id en la ruta /api/products/:id
@@ -75,5 +88,6 @@ export {
     validateId,
     validacionFormularios,
     requireLogin,
+    validacionVenta
 
 }
