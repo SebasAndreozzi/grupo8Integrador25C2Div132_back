@@ -16,6 +16,8 @@ import { productRoutes } from "./src/api/routes/index.js";
 import { join, __dirname } from "./src/api/utils/index.js";
 // importamos session .env
 import session from "express-session";
+import { handleMulterError } from "./src/api/middlewares/multer-middleware.js";
+
 const SESSION_KEY = enviroments.session_key;
 
 import { usuarioRoutes } from "./src/api/routes/index.js";
@@ -61,6 +63,8 @@ app.use("/", viewRoutes);
 ======================*/
 
 // AHORA LAS RUTAS GESTIONA EL MIDDLEWARE
+app.use(handleMulterError);//IMPORTANTE PARA Q NO COLISIONE EL SERVIDOR!
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo desde el puerto ${PORT}`);
 });
