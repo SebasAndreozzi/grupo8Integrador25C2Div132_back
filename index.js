@@ -9,7 +9,7 @@ const PORT = enviroments.port;
 
 import cors from "cors";
 import { loggerUrl } from "./src/api/middlewares/middlewares.js";
-import { productRoutes, ventasRoutes, usuarioRoutes, viewRoutes } from "./src/api/routes/index.js";
+import { productRoutes, ventasRoutes, ventaproductoRoutes, usuarioRoutes, viewRoutes } from "./src/api/routes/index.js";
 // NUEVA RUTA DE LOGIN
 
 // importamos la config para trabajar rutas y archivos estaticos
@@ -51,6 +51,7 @@ app.use(
 =====================*/
 app.use("/api/productos", productRoutes);
 app.use("/api/ventas", ventasRoutes);
+app.use("/api/ventaproducto", ventaproductoRoutes);
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/", viewRoutes);
 

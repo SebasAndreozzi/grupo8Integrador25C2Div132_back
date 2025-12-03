@@ -8,6 +8,7 @@ router.get("/", getAllVentas);
 
 router.get("/:id", validateId, getVentaById);
 
-router.post("/", validacionVenta, createVenta)
+router.post("/", validacionVenta, createVenta);
+
 
 export default router;

@@ -1,4 +1,4 @@
-import { selectAllVentas, selectVentaById, insertVenta, insertVentaProducto} from "../models/ventas.models.js";
+import { selectAllVentas, selectVentaById, insertVenta, insertVentaProducto, selectVentaProductoById} from "../models/ventas.models.js";
 import ProductModel from "../models/product.models.js";
 
 export const getAllVentas = async (req, res) => {
@@ -78,7 +78,8 @@ export const createVenta = async (req, res) => {
         }
 
         return res.status(201).json({
-            message: "Venta realizada con éxito", ventaId});
+            message: "Venta realizada con éxito", 
+            payload: ventaId});
 
     } catch (err) {
         console.error(err);
@@ -87,3 +88,29 @@ export const createVenta = async (req, res) => {
         });
     }
 };
+
+export const getVentaProductoById = async(req, res) => {
+    try{
+            let {id} = req.params; // En el array le importa unicamente el id
+            const [rows] = await selectVentaProductoById(id);
+            
+            if(rows.length === 0)
+            {
+                console.log(`Error!! No existe producto con el id ${id}`);
+                return res.status(404).json({ //not found
+                    message:`No se encontro producto con id ${id}`
+                });
+            }
+            res.status(200).json({ //ok
+                payload: rows
+            });
+        }catch(error)
+        {
+            console.log(error);
+    
+            res.status(500).json({ //internal server error
+                message:"Error interno del servidor",
+                error: error.message
+            });
+        }
+}
