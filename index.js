@@ -9,7 +9,7 @@ const PORT = enviroments.port;
 
 import cors from "cors";
 import { loggerUrl } from "./src/api/middlewares/middlewares.js";
-import { productRoutes } from "./src/api/routes/index.js";
+import { productRoutes, ventasRoutes, usuarioRoutes, viewRoutes } from "./src/api/routes/index.js";
 // NUEVA RUTA DE LOGIN
 
 // importamos la config para trabajar rutas y archivos estaticos
@@ -20,11 +20,8 @@ import { handleMulterError } from "./src/api/middlewares/multer-middleware.js";
 
 const SESSION_KEY = enviroments.session_key;
 
-import { ventasRoutes } from "./src/api/routes/index.js";
-import { usuarioRoutes } from "./src/api/routes/index.js";
-import { viewRoutes } from "./src/api/routes/index.js";
 /*======================
-  Middlewares
+     Middlewares
 =====================*/
 app.use(cors());
 app.use(loggerUrl);

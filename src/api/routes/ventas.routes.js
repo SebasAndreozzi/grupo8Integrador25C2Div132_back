@@ -6,11 +6,8 @@ const router = Router();
 
 router.get("/", getAllVentas);
 
-router.get("/:id", validateId,getVentaById);
+router.get("/:id", validateId, getVentaById);
 
 router.post("/", validacionVenta, createVenta)
-/*
-router.put()
-router.delete()
-*/
+
 export default router;
