@@ -30,9 +30,17 @@ export const updateUser = (correo, password, id) => {
     return connection.query(sql, [correo, password, id]);
 };
 
+export const deleteUser = (id) =>{
+    let sql = `DELETE FROM usuarios where id= ?`;
+    
+    return connection.query(sql,[id]);
+}
+
+
 
 export default {
     insertUser,
     updateUser,
+    deleteUser
 }
 

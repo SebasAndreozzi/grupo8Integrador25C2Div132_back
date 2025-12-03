@@ -1,5 +1,9 @@
 let getProducts_form = document.getElementById("getProductos-form");
+let getUsuarios_form = document.getElementById("getUsuarios-form");
+
 let contenedor_productos = document.getElementById("contenedor-productos");
+let urlProductos = "http://localhost:3000/api/productos";
+let urlUsuarios = "http://localhost:3000/api/usuarios";
 
 
 getProducts_form.addEventListener("submit", async (event) => {
@@ -13,7 +17,7 @@ getProducts_form.addEventListener("submit", async (event) => {
     let idProducto = data.id;
 
     try {
-        let response = await fetch(`http://localhost:3000/api/productos/${idProducto}`);
+        let response = await fetch(`${urlProductos}/${idProducto}`);
         console.log(response);
 
         let datos = await response.json();
@@ -26,6 +30,36 @@ getProducts_form.addEventListener("submit", async (event) => {
         let producto = datos.payload[0];
 
         mostrarProducto(producto); 
+
+    } catch (error) {
+        console.error("Error: ", error);
+    }
+
+});
+getUsuarios_form.addEventListener("submit", async (event) => {
+    
+    event.preventDefault(); 
+
+    let formData = new FormData(event.target);
+
+    let data = Object.fromEntries(formData.entries());
+
+    let idUsuario = data.id;
+
+    try {
+        let response = await fetch(`${urlUsuarios}/${idUsuario}`);
+        console.log(response);
+
+        let datos = await response.json();
+        console.log(datos);
+
+        if (!response.ok) {
+            mostrarError(datos.message || "No se pudo obtener el usuario");
+            return;
+        }
+        let usuario = datos.payload[0];
+
+        mostrarUsuario(usuario); 
 
     } catch (error) {
         console.error("Error: ", error);
@@ -60,16 +94,43 @@ function mostrarProducto(producto) {
         if(!confirmacion){
             alert("Eliminacion cancelada");
         }else{
-            eliminarProducto(producto.id);
+            eliminarElemento(urlProductos, producto.id);
         }
     })
 }
 
-async function eliminarProducto(id) {
-    let url = `http://localhost:3000/api/productos/${id}`;
+function mostrarUsuario(usuario) {
+    console.table(usuario);
 
+    let htmlusuario = `
+        <div class="card-usuario">
+            <p>Id: ${usuario.id}</p>
+            <p>Correo: ${usuario.correo}</p>
+        </div>
+        <button class="button" type="button" id="delete-button">Eliminar usuario</button>   
+        `;
+
+    contenedor_productos.innerHTML = htmlusuario;
+    
+    let deleteProduct_button = document.getElementById("delete-button");
+
+    deleteProduct_button.addEventListener("click", event => {
+        event.stopPropagation();
+
+        let confirmacion = confirm("Quiere eliminar el usuario?")
+
+        if(!confirmacion){
+            alert("Eliminacion cancelada");
+        }else{
+            eliminarElemento(urlUsuarios,usuario.id);
+        }
+    })
+}
+
+
+async function eliminarElemento(url, id) {
     try{
-        let response = await fetch(url, {
+        let response = await fetch(`${url}/${id}`, {
             method:"DELETE"
         });
 

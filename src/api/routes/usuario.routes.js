@@ -1,6 +1,6 @@
 import { Router } from "express";
  // Importa las funciones controladoras que manejan la lógica de las rutas.
-import { getUsuarioById, insertUser, modifyUser} from "../controllers/usuario.controllers.js";
+import { getUsuarioById, insertUser, modifyUser, removeProduct} from "../controllers/usuario.controllers.js";
 import { validateId } from "../middlewares/middlewares.js";
 
 const router = Router(); //inicializa una instancia de la aplicacion
@@ -21,5 +21,5 @@ router.get("/:id",validateId, getUsuarioById);
 router.put("/:id", modifyUser);
 //             ↑, falta validacion de formularios propio de usuarios
 
-
+router.delete("/:id", removeProduct);
 export default router;
