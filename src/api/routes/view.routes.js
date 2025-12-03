@@ -29,7 +29,7 @@ router.get("/modificar", requireLogin, renderModificar);
 router.get("/eliminar", requireLogin, renderEliminar);
 
 // GET para ventas datos, requiere login previo y luego renderiza la vista.
-router.get("/ventas", renderVentas);
+router.get("/ventas", requireLogin, renderVentas);
 
 
 
