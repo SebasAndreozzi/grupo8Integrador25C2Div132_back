@@ -39,6 +39,71 @@ export const insertUser = async (req, res) => {
     }
 };
 
+// CONTROLADOR MODIFY -> Modifica un producto existente utilizando los datos enviados por el cliente y ejecuta la actualización y devuelve resultado como JSON
+export const modifyUser = async (req, res) => {
+    try {
+        let { id, correo, password } = req.body;
+
+        // Validación de campos obligatorios
+        if (!id || !correo) {
+            return res.status(400).json({
+                message: "Faltan campos requeridos (id o correo)."
+            });
+        }
+
+        // 1° Buscar usuario actual
+        const [rows] = await selectUsuarioById(id);
+
+        if (rows.length === 0) {
+            return res.status(404).json({
+                message: "No existe usuario con ese id"
+            });
+        }
+
+        let oldUser = rows[0];
+
+        // Resolver contraseña
+        let newPassword;
+
+        if (!password || password.trim() === "") {
+            // Si NO manda nueva contraseña → Mantenemos la actual
+            newPassword = oldUser.password;
+        } else {
+            // Si manda nueva contraseña → la hasheamos
+            try {
+                newPassword = await hashPassword(password);
+            } catch (e) {
+                return res.status(400).json({
+                    message: e.message || "Error al hashear la contraseña"
+                });
+            }
+        }
+
+        // 3° Ejecutar UPDATE
+        const [result] = await UserModels.updateUser(correo, newPassword, id);
+
+        if (result.affectedRows === 0) {
+            return res.status(400).json({
+                message: "No se pudo actualizar el usuario."
+            });
+        }
+
+        // 4° Respuesta OK
+        return res.status(200).json({
+            message: `Usuario con id ${id} actualizado correctamente`
+        });
+
+    } catch (error) {
+        console.error("Error al actualizar usuario: ", error);
+        return res.status(500).json({
+            message: `Error interno del servidor: ${error}`
+        });
+    }
+};
+
+
+
+
 export const getUsuarioById = async (req, res)=>{ 
     let {id} = req.params; // En el array le importa unicamente el id
     const [rows] = await selectUsuarioById(id);

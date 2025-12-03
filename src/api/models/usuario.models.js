@@ -8,20 +8,31 @@ export const selectUserByCredentials = (correo) => {
     return connection.query(sql, [correo]);
 };
 
-
-
-export const insertUser = (correo, password) => {
-    const sql = `INSERT INTO usuarios (correo, password) values (?,?)`;
-    return connection.query(sql, [correo, password])
-}
-
+// Obtener usuario por id
 export const selectUsuarioById = (id) => {
     let sql = "SELECT * FROM usuarios WHERE usuarios.id = ?";
     return connection.query(sql, [id]);
 }
 
+// Crear usuario
+export const insertUser = (correo, password) => {
+    const sql = `INSERT INTO usuarios (correo, password) values (?,?)`;
+    return connection.query(sql, [correo, password])
+}
+
+// Modificar usuario
+export const updateUser = (correo, password, id) => {
+    let sql = `
+        UPDATE usuarios
+        SET correo = ?, password = ?
+        WHERE id = ?
+    `;
+    return connection.query(sql, [correo, password, id]);
+};
+
+
 export default {
     insertUser,
-    
+    updateUser,
 }
 

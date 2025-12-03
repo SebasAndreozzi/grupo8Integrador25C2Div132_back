@@ -17,7 +17,7 @@ getProducts_form.addEventListener("submit", async (event) => {
     let formDataProductos = new FormData(event.target);
 
     // Llamamos a la función que hace la consulta
-    ConsultarTabla(urlProductos, formDataProductos, "producto");
+    consultarTabla(urlProductos, formDataProductos, "producto");
 });
 
 getUsuarios_form.addEventListener("submit", async (event) => {
@@ -25,10 +25,10 @@ getUsuarios_form.addEventListener("submit", async (event) => {
     let formDataUsuarios = new FormData(event.target);
 
     // Llamamos a la función que hace la consulta
-    ConsultarTabla(urlUsuarios, formDataUsuarios, "usuario");
+    consultarTabla(urlUsuarios, formDataUsuarios, "usuario");
 });
 
-async function ConsultarTabla(urlPersonalizado, formData, tipo) {
+async function consultarTabla(urlPersonalizado, formData, tipo) {
     let data = Object.fromEntries(formData.entries());
     let id = data.id;
     try {
@@ -76,7 +76,6 @@ function mostrarUsuario(usuario) {
         <div class="card-usuario">
             <p>Id: ${usuario.id}</p>
             <p>Correo: ${usuario.correo}</p>
-            <p>Password: ${usuario.password}</p>
         </div>
     `;
     contenedor_productos.innerHTML = htmlUsuario;
