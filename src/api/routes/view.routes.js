@@ -5,7 +5,8 @@ import {
     renderConsultar,
     renderCrear,
     renderModificar,
-    renderEliminar
+    renderEliminar,
+    renderVentas
 } from "../controllers/view.controllers.js";
 
 import { loginUser, logoutUser } from "../controllers/usuario.controllers.js";
@@ -26,6 +27,9 @@ router.get("/modificar", requireLogin, renderModificar);
 
 // GET para eliminar datos, requiere login previo y luego renderiza la vista.
 router.get("/eliminar", requireLogin, renderEliminar);
+
+// GET para ventas datos, requiere login previo y luego renderiza la vista.
+router.get("/ventas", renderVentas);
 
 
 

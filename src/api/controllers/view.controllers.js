@@ -1,5 +1,5 @@
 import ProductModel from "../models/product.models.js"; //traemos consultas sql
-import connection from "../database/db.js";
+import { selectAllVentas } from "../models/ventas.models.js";
 
 //nuevo renderLoginView
 export const renderLoginView = (req, res) => {
@@ -45,4 +45,13 @@ export const renderEliminar = (req, res) => {
     title: "Eliminar",
     about: "Eliminar producto" 
     });
+};
+
+export const renderVentas = async (req, res) => {
+    const [rows]  = await selectAllVentas();
+    res.render("ventas", {
+    title: "Ventas",
+    about: "Ventas",
+    products: rows,
+  });
 };
