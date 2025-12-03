@@ -100,7 +100,34 @@ export const modifyUser = async (req, res) => {
         });
     }
 };
+export const removeProduct = async (req, res)=>{
+    try
+    {
+        let{id} = req.params;
+        let [result] = await UserModels.deleteUser(id);
+        
+        console.log(result); //console
 
+        // Comprobamos si realmente se elimino un usuario y afectó alguna fila (es decir, si el usuario existía)
+        if(result.affectedRows === 0) {
+            return res.status(400).json({ //bad request
+                message: `No se elimino el usuario con id: ${id}`
+            });
+        }
+
+        // el tipo de respuesta en json
+        return res.status(200).json({//ok
+            message: `Usuario con id ${id} eliminado exitosamente!`
+        });
+    }catch(error)
+    {
+        console.error("Error al eliminar un usuario por su id:  ", error);
+        res.status(500).json({//internal server error
+            message: `Error al eliminar usuario con id: ${id}`,
+            error: error.message
+        });
+    }
+}
 
 
 
