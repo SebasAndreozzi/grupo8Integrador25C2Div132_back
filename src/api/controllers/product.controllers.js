@@ -105,7 +105,7 @@ export const getProductById = async (req, res)=>{
 export const createProduct = async (req, res) => {
     try {
         const { nombre, precio, tipo } = req.body;
-        const img = "/img/" + req.file.filename;
+        let img = req.file ? `${req.protocol}://${req.get("host")}/img/${req.file.filename}`: null;
 
         await ProductModel.insertProduct(nombre, img, tipo, precio);
 

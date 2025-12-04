@@ -22,6 +22,8 @@ getProducts_form.addEventListener("submit", async (event) => {
 
 getUsuarios_form.addEventListener("submit", async (event) => {
     event.preventDefault(); 
+    // 1° paso = extraer toda la info del formulario en un objeto FormData (event.target -> le pasamos todo el formulario a FormData)
+
     let formDataUsuarios = new FormData(event.target);
 
     // Llamamos a la función que hace la consulta
@@ -29,6 +31,8 @@ getUsuarios_form.addEventListener("submit", async (event) => {
 });
 
 async function consultarTabla(urlPersonalizado, formData, tipo) {
+    // 2° paso = convertimos el objeto FormData en un objeto normal JS para poder extraer la info comodamente
+
     let data = Object.fromEntries(formData.entries());
     let id = data.id;
     try {
@@ -45,8 +49,9 @@ async function consultarTabla(urlPersonalizado, formData, tipo) {
             return;
         }
 
-        // Renderizamos según el tipo
+        // extraigo el producto que devuelve payload
         let item = datos.payload[0];
+        //  le pasamos el producto a la funcion que lo renderice en la pantalla
         if (tipo === "producto") mostrarProducto(item);
         else if (tipo === "usuario") mostrarUsuario(item);
 

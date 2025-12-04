@@ -18,11 +18,14 @@ altaUsers_form.addEventListener("submit", async event => {
     // datos del usuario al endpoint api/usuarios
     try {
         let response = await fetch(urlUser, {
+            // crear un usuario
             method: "POST",
+            // mandando JSON
             headers: {
                 "Content-Type":"application/json",
             },
-            body: JSON.stringify(data)   // ← importante: sin JSON, sin headers
+            // convierte el objeto a JSON y lo manda al servidor
+            body: JSON.stringify(data)   
         });
 
         //Procesamos la respuesta que nos devuelve
