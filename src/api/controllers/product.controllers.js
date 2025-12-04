@@ -124,8 +124,9 @@ export const modifyProduct = async (req, res) => {
         let { id, nombre, tipo, precio, activo } = req.body;
 
         // SI ENVIA IMAGEN
-        let img = req.file ? "/img/" + req.file.filename : null;
-
+        // let img = req.file ? "/img/" + req.file.filename : null;
+        // protocolo de petición:"http"▼                ▼ Devuelve el host + puerto: "localhost:3000"
+        let img = req.file ? `${req.protocol}://${req.get("host")}/img/${req.file.filename}`: null;
         if (!id || !nombre || !tipo || !precio || activo === undefined) {
             return res.status(400).json({ message: "Faltan campos requeridos" });
         }

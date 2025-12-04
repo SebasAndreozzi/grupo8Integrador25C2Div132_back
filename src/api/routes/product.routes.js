@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validacionFormularios, validateId } from "../middlewares/middlewares.js";
+import { validacionFormularios, validacionFormulariosCrear, validateId } from "../middlewares/middlewares.js";
 import { createProduct, getAllProducts, getActiveProducts, getActiveProductById, getProductById, modifyProduct, removeProduct } from "../controllers/product.controllers.js"; 
 import { multerUploader } from "../middlewares/multer-middleware.js";
 
@@ -16,7 +16,7 @@ router.get("/:id",  validateId , getProductById);
 
 // POST -> Crear nuevo Producto
 //                  ▼ objeto multer q tendra metodo single(una imagen a la vez)
-router.post("/",multerUploader.single("image"), validacionFormularios, createProduct)
+router.post("/",multerUploader.single("image"), validacionFormulariosCrear, createProduct)
 
 
 // PUT -> Actualizar producto

@@ -59,12 +59,30 @@ const validacionFormularios = (req, res, next) => {
         return res.status(400).json({ message: "La categoría no es válida." });
     }
 
-    // de la image multer
+    next();
+};
+const validacionFormulariosCrear = (req, res, next) => {
+    const { nombre, precio, tipo } = req.body;
+
+    if (!nombre || nombre.trim().length < 3) {
+        return res.status(400).json({ message: "El nombre debe tener al menos 3 caracteres." });
+    }
+
+    if (!precio || isNaN(precio) || Number(precio) <= 0) {
+        return res.status(400).json({ message: "El precio debe ser mayor a 0." });
+    }
+
+    const categoriasValidas = ["Sellado", "Accesorio"];
+    if (!tipo || !categoriasValidas.includes(tipo)) {
+        return res.status(400).json({ message: "La categoría no es válida." });
+    }
+
+        // de la image multer
     if (!req.file) {
         return res.status(400).json({ message: "Debes subir una imagen." });
     }
-
     next();
+
 };
 
 const validacionVenta = (req, res, next) => {
@@ -87,6 +105,7 @@ export {
     loggerUrl,
     validateId,
     validacionFormularios,
+    validacionFormulariosCrear,
     requireLogin,
     validacionVenta
 
