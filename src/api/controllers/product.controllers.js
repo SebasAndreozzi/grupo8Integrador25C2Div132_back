@@ -1,8 +1,3 @@
-/*=============================
-CONTROLADORES DE PRODUCTO
-definicion: se encarga de gestionas las llamadas peticiones(req) y respuestas(res)
-=============================*/
-
 import ProductModel from "../models/product.models.js"; //traemos consultas sql
 
 
