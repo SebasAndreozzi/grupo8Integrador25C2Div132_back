@@ -49,8 +49,6 @@ export const getActiveProductById = async (req, res)=>{
     try{
         let {id} = req.params; // En el array le importa unicamente el id
         const [rows] = await ProductModel.selectActiveProductById(id);
-
-        //console.log(rows); //console
         
         if(rows.length === 0)
         {

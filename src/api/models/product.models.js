@@ -1,7 +1,3 @@
-/*=============================
-    MODELOS DE PRODUCTOS
-Definicion : Logica de las consultas SQL 
-=============================*/
 import connection from "../database/db.js";// conexion a la BDD
 
 // Traer todos los productos

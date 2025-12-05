@@ -1,11 +1,3 @@
-/*======================
-        Middlewares
-funciones que se ejecutan entre la peticion (request -> req) y la respuesta (response -> res)
-// middleware de aplicacion:funcion de aplicacion q se ejecuta en todas las rutas
-// middleware de ruta: funcion que se ejecuta en algunas rutas
-=====================*/
-
-
 // Middleware logger q muestra x consola todas las solicitudes
 const loggerUrl = (req, res, next) => {
     console.log(`[${new Date().toLocaleString()}] ${req.method} ${req.url}`);
